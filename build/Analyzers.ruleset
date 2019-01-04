@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RuleSet Name="Autofac Analyzer Rules" Description="Analyzer rules for Pi Lights." ToolsVersion="14.0">
+    <Rules AnalyzerId="Microsoft.Usage" RuleNamespace="Microsoft.Usage">
+        <!-- No underscores in methods - unit tests use underscores -->
+        <Rule Id="CA1707" Action="None" />
+    </Rules>
     <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
         <!-- Require documentation -->
         <Rule Id="SA1600" Action="None" />
