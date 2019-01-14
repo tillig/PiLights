@@ -2,5 +2,21 @@
     ViewData["Title"] = "Home Page";
 }
 
-<h1>Pi Lights</h1>
-<p>Time to get to work.</p>
+<div class="content-area__content">
+    <h1 class="section-title">Pi Lights</h1>
+    <form asp-controller="home" asp-action="SceneProperties" method="post">
+        <fieldset class="panel">
+            <div class="form-group">
+                <label>
+                    <span class="label">Scene</span>
+                    <span>
+                        <select name="sceneName" asp-items="this.ViewBag.Scenes" class="control" autocomplete="off" autofocus="autofocus"></select>
+                    </span>
+                </label>
+            </div>
+            <div class="form-actions">
+                <input type="submit" data-clear-alerts="true" class="button" value="next" />
+            </div>
+        </fieldset>
+    </form>
+</div>

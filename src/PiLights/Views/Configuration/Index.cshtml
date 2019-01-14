@@ -1,7 +1,52 @@
-﻿
+﻿@model ConfigurationModel
+
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Configuration";
 }
 
-<h1>Configuration Settings</h1>
-
+<div class="content-area__content">
+    <h1 class="section-title">Configuration Settings</h1>
+    <form asp-controller="configuration" asp-action="Index" method="post">
+        <fieldset class="panel">
+            <div class="form-group">
+                <label>
+                    <span class="label">Server IP</span>
+                    <span>
+                        <input asp-for="ServerIP" class="control" autocomplete="off" autofocus="autofocus" />
+                    </span>
+                </label>
+                <span asp-validation-for="ServerIP" class="field-validation-valid"></span>
+            </div>
+            <div class="form-group">
+                <label>
+                    <span class="label">Server Port</span>
+                    <span>
+                        <input asp-for="ServerPort" class="control" autocomplete="off" autofocus="autofocus" />
+                    </span>
+                </label>
+                <span asp-validation-for="ServerPort" class="field-validation-valid"></span>
+            </div>
+            <div class="form-group">
+                <label>
+                    <span class="label">LED Count</span>
+                    <span>
+                        <input asp-for="LedCount" class="control" autocomplete="off" autofocus="autofocus" />
+                    </span>
+                </label>
+                <span asp-validation-for="LedCount" class="field-validation-valid"></span>
+            </div>
+            <div class="form-group">
+                <label>
+                    <span class="label">LED Type</span>
+                    <span>
+                        <select asp-for="LedType" asp-items="Html.GetEnumSelectList<LedType>()" class="control" autocomplete="off" autofocus="autofocus"></select>
+                    </span>
+                </label>
+                <span asp-validation-for="LedType" class="field-validation-valid"></span>
+            </div>
+            <div class="form-actions">
+                <input type="submit" data-clear-alerts="true" class="button" value="save" />
+            </div>
+        </fieldset>
+    </form>
+</div>

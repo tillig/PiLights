@@ -1,0 +1,30 @@
+﻿@using System.Reflection;
+@using PiLights.Scenes;
+@model Scene
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="content-area__content">
+    <h1 class="section-title">@Model.GetDisplayName()</h1>
+    <form asp-controller="home" asp-action="StartScene" method="post">
+        <fieldset class="panel">
+            <input hidden="hidden" name="sceneName" value="@Model.GetType().FullName"/>
+            @foreach (var prop in Model.GetSceneProperties())
+            {
+            <div class="form-group">
+                <label>
+                    <span class="label">@prop.Name</span>
+                    <span>
+                        <input name="@prop.Name" class="control" autocomplete="off" autofocus="autofocus" />
+                    </span>
+                </label>
+            </div>
+            }
+            <div class="form-actions">
+                <input type="submit" data-clear-alerts="true" class="button" value="Start" />
+                <a asp-controller="Home" asp-action="index" class="link -lowercase">cancel</a>
+            </div>
+        </fieldset>
+    </form>
+</div>

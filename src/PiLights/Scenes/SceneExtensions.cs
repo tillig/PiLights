@@ -17,5 +17,10 @@ namespace PiLights.Scenes
 
             return attrib.DisplayName;
         }
+
+        public static PropertyInfo[] GetSceneProperties(this Scene scene)
+        {
+            return scene.GetType().GetProperties();
+        }
     }
 }
