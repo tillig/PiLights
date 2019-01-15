@@ -22,10 +22,9 @@ loop {2}";
         [DisplayName("Color")]
         public string Color { get; set; }
 
-        public override void Execute()
+        public override string GenerateScript()
         {
-            this.Command = string.Format(CultureInfo.InvariantCulture, this.template, this.Color, this.ChaseSpeed, ConfigurationManager.Configuration.LedCount);
-            base.Execute();
+            return string.Format(CultureInfo.InvariantCulture, this.template, this.Color, this.ChaseSpeed, ConfigurationManager.Configuration.LedCount);
         }
     }
 }
