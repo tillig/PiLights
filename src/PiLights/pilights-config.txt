@@ -1,1 +1,1 @@
-{"LedCount":1234,"LedType":0,"ServerIP":"10.0.0.1","ServerPort":"1234"}
+{"LedCount":600,"LedType":3,"ServerIP":"192.168.1.208","ServerPort":9999}
