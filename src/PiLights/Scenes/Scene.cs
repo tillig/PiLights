@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
 
 namespace PiLights.Scenes
 {
@@ -28,16 +25,8 @@ thread_stop
             // and won't render anything. The end semicolon in particular
             // will get you.
             var script = this.WrapScriptWithSetup(this.GenerateScript()).Trim().Replace("\r\n", "\n", StringComparison.Ordinal).Replace('\n', ';') + ";";
-            var byData = System.Text.Encoding.ASCII.GetBytes(script);
-
-            var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            var ipAdd = System.Net.IPAddress.Parse(ConfigurationManager.Configuration.ServerIP);
-            var remoteEP = new IPEndPoint(ipAdd, ConfigurationManager.Configuration.ServerPort);
-
-            socket.Connect(remoteEP);
-            socket.Send(byData);
-            socket.Disconnect(true);
-            socket.Close();
+            ConfigurationManager.SendDataToSocket(script);
+            ConfigurationManager.WriteLastKnownScene(script);
         }
 
         public abstract string GenerateScript();

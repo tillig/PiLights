@@ -4,19 +4,49 @@
 
 <div class="content-area__content">
     <h1 class="section-title">Pi Lights</h1>
-    <form asp-controller="home" asp-action="SceneProperties" method="post">
+    <form asp-controller="home" asp-action="StartScene" method="post">
         <fieldset class="panel">
             <div class="form-group">
                 <label>
                     <span class="label">Scene</span>
                     <span>
-                        <select name="sceneName" asp-items="this.ViewBag.Scenes" class="control" autocomplete="off" autofocus="autofocus"></select>
+                        <select id="sceneName" name="sceneName" asp-items="this.ViewBag.Scenes" class="control" autocomplete="off" autofocus="autofocus">
+                            <option disabled selected>--- SELECT ---</option>
+                        </select>
                     </span>
                 </label>
             </div>
+            <div id="sceneProperties" style="display:none;"></div>
             <div class="form-actions">
                 <input type="submit" data-clear-alerts="true" class="button" value="next" />
             </div>
         </fieldset>
     </form>
 </div>
+
+@section scripts
+{
+    <script>
+        $('#sceneName').change(function () {
+            var selected = $(this).val();
+            var postData = {
+                sceneName: selected
+            };
+            $.ajax({
+                url: '/Home/SceneProperties',
+                type: 'POST',
+                cache: false,
+                async: true,
+                dataType: "html",
+                data: postData
+            })
+            .done(function (result) {
+                $('#sceneProperties').html(result);
+                $('#sceneProperties').fadeIn('fast');
+            }).fail(function (xhr) {
+                console.log('error : ' + xhr.status + ' - ' + xhr.statusText + ' - ' + xhr.responseText);
+            }); 
+            
+        });
+    </script>
+}

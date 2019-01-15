@@ -26,7 +26,7 @@ namespace PiLights.Controllers
         {
             var scene = (Scene)Activator.CreateInstance(Type.GetType(sceneName));
             var sceneProperties = scene.GetSceneProperties();
-            return this.View(scene);
+            return this.PartialView(scene);
         }
 
         [HttpPost]
