@@ -17,6 +17,16 @@ thread_stop
 
         public virtual void Execute()
         {
+            // Commands via TCP need to...
+            // - send the init directive
+            // - start/end a thread around the render part
+            // - use semicolons to separate commands
+            // - end with a semicolon
+            // - disconnect when the command is done being sent
+            //
+            // ws2812svr gets super picky if you miss any of those things
+            // and won't render anything. The end semicolon in particular
+            // will get you.
             var script = this.WrapScriptWithSetup(this.GenerateScript()).Trim().Replace("\r\n", "\n", StringComparison.Ordinal).Replace('\n', ';') + ";";
             var byData = System.Text.Encoding.ASCII.GetBytes(script);
 
