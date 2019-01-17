@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using PiLights.Services;
 
 namespace PiLights.Scenes
 {
@@ -12,6 +13,7 @@ namespace PiLights.Scenes
 render";
 
         [DisplayName(nameof(Color))]
+        [TypeConverter(typeof(HexColorConverter))]
         public string Color { get; set; }
 
         public override string GenerateScript()

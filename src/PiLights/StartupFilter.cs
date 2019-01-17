@@ -10,7 +10,8 @@ namespace PiLights
         {
             return builder =>
             {
-                builder.UseMiddleware<LastKnownSceneMiddleware>();
+                // TODO: Running this causes the app to hang on the socket.Disconnect(true); part after sending the previous scene.
+                // builder.UseMiddleware<LastKnownSceneMiddleware>();
                 next(builder);
             };
         }

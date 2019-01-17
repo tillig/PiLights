@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -38,7 +39,19 @@ namespace PiLights.Controllers
             foreach (var prop in sceneProps)
             {
                 this.Request.Form.TryGetValue(prop.Name, out var propValue);
-                prop.SetValue(scene, Convert.ChangeType(propValue[0], prop.PropertyType, CultureInfo.InvariantCulture), null);
+                object value = null;
+                var typeConverter = prop.GetCustomAttribute<TypeConverterAttribute>();
+                if (typeConverter == null)
+                {
+                    value = Convert.ChangeType(propValue[0], prop.PropertyType, CultureInfo.InvariantCulture);
+                }
+                else
+                {
+                    var converterInstance = (TypeConverter)Activator.CreateInstance(Type.GetType(typeConverter.ConverterTypeName));
+                    value = converterInstance.ConvertTo(propValue[0], prop.PropertyType);
+                }
+
+                prop.SetValue(scene, value, null);
             }
 
             scene.Execute();
