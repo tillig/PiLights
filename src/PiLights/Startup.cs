@@ -32,6 +32,7 @@ namespace PiLights
             }
 
             app.UseStaticFiles();
+            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -52,6 +53,8 @@ namespace PiLights
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddTransient<IStartupFilter, StartupFilter>();
+            services.AddDistributedMemoryCache();
+            services.AddSession();
         }
     }
 }

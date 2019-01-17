@@ -1,5 +1,68 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
 for details on configuring this project to bundle and minify static web assets. */
+.alert {
+    align-items: flex-start;
+    border-radius: 0.3125rem;
+    border: none;
+    display: flex;
+    margin-bottom: 1.875rem;
+    padding: 0.5rem 1.25rem;
+    width: 100%;
+}
+
+    .alert i {
+        font-size: 1.375rem;
+        margin-right: 10px;
+    }
+
+    .alert .close {
+        height: 1.375rem;
+        margin: 0;
+        padding: 0;
+        position: static;
+        text-shadow: none;
+    }
+
+        .alert .close:hover,
+        .alert .close:focus,
+        .alert .close:active {
+            color: inherit;
+        }
+
+        .alert .close i {
+            font-size: 1.125rem;
+            height: 1.125rem;
+            margin: 0;
+        }
+
+.alert-danger {
+    background-color: #f0d3d6;
+    color: #9f2633;
+}
+
+    .alert-danger a {
+        color: #9f2633;
+    }
+
+.alert-info {
+    border-width: 0.0625rem;
+    background-color: #ffffff;
+    color: #666666;
+}
+
+.alert-message {
+    flex-grow: 2;
+}
+
+.alert-success {
+    background-color: #e0efd7;
+    color: #336600;
+}
+
+    .alert-success a {
+        color: #336600;
+    }
+
 body {
     padding-top: 50px;
     padding-bottom: 20px;

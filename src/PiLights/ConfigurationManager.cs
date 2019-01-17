@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 using Newtonsoft.Json;
 using PiLights.Models;
 
@@ -29,18 +30,35 @@ namespace PiLights
             }
         }
 
-        public static void SendDataToSocket(string script)
+        public static bool SendDataToSocket(string script)
         {
             var byData = System.Text.Encoding.ASCII.GetBytes(script);
 
             var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             var ipAdd = System.Net.IPAddress.Parse(Configuration.ServerIP);
             var remoteEP = new IPEndPoint(ipAdd, Configuration.ServerPort);
+            var tries = 0;
+            var success = false;
 
-            socket.Connect(remoteEP);
-            socket.Send(byData);
-            socket.Disconnect(true);
-            socket.Close();
+            while (tries < 1 && !success)
+            {
+                try
+                {
+                    socket.Connect(remoteEP);
+                    socket.Send(byData);
+                    socket.Disconnect(true);
+                    socket.Shutdown(SocketShutdown.Both);
+                    socket.Close();
+                    success = true;
+                }
+                catch
+                {
+                    Thread.Sleep(5000);
+                    tries++;
+                }
+            }
+
+            return success;
         }
 
         public static string GetLastKnownScene()

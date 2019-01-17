@@ -12,7 +12,7 @@ thread_start
 thread_stop
 ";
 
-        public virtual void Execute()
+        public virtual bool Execute()
         {
             // Commands via TCP need to...
             // - send the init directive
@@ -25,8 +25,13 @@ thread_stop
             // and won't render anything. The end semicolon in particular
             // will get you.
             var script = this.WrapScriptWithSetup(this.GenerateScript()).Trim().Replace("\r\n", "\n", StringComparison.Ordinal).Replace('\n', ';') + ";";
-            ConfigurationManager.SendDataToSocket(script);
-            ConfigurationManager.WriteLastKnownScene(script);
+            var result = ConfigurationManager.SendDataToSocket(script);
+            if (result)
+            {
+                ConfigurationManager.WriteLastKnownScene(script);
+            }
+
+            return result;
         }
 
         public abstract string GenerateScript();

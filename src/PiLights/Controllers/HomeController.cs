@@ -3,15 +3,20 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Primitives;
+using Newtonsoft.Json;
+using PiLights.Models;
 using PiLights.Scenes;
 
 namespace PiLights.Controllers
 {
     public class HomeController : Controller
     {
+        private const string ErrorMessage = "Failed to start the scene. Please try again later.";
+        private const string SuccessMessage = "Successfully started the scene.";
         private readonly Lazy<IList<Scene>> scenes = new Lazy<IList<Scene>>(() => GetScenes());
 
         [HttpGet]
@@ -41,8 +46,7 @@ namespace PiLights.Controllers
                 prop.SetValue(scene, Convert.ChangeType(propValue[0], prop.PropertyType, CultureInfo.InvariantCulture), null);
             }
 
-            scene.Execute();
-
+            this.SetAlert(scene.Execute());
             return this.RedirectToAction("Index");
         }
 
@@ -63,6 +67,12 @@ namespace PiLights.Controllers
             }
 
             return scenes;
+        }
+
+        private void SetAlert(bool success)
+        {
+            var alert = new Alert { MessageHtml = success ? SuccessMessage : ErrorMessage, Success = success };
+            this.HttpContext.Session.SetString("alert-message", JsonConvert.SerializeObject(alert));
         }
     }
 }
