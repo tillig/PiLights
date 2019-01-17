@@ -24,7 +24,7 @@ thread_stop
             // ws2812svr gets super picky if you miss any of those things
             // and won't render anything. The end semicolon in particular
             // will get you.
-            var script = this.WrapScriptWithSetup(this.GenerateScript()).Trim().Replace("\r\n", "\n", StringComparison.Ordinal).Replace('\n', ';') + ";";
+            var script = WrapScriptWithSetup(this.GenerateScript()).Trim().Replace("\r\n", "\n", StringComparison.Ordinal).Replace('\n', ';') + ";";
             var result = ConfigurationManager.SendDataToSocket(script);
             if (result)
             {
@@ -36,7 +36,7 @@ thread_stop
 
         public abstract string GenerateScript();
 
-        private string WrapScriptWithSetup(string script)
+        private static string WrapScriptWithSetup(string script)
         {
             return string.Format(CultureInfo.InvariantCulture, Wrapper, ConfigurationManager.Configuration.LedCount, (int)ConfigurationManager.Configuration.LedType, script);
         }

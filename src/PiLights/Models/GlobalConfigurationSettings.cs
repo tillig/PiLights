@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace PiLights.Models
 {
-    public class ConfigurationModel
+    public class GlobalConfigurationSettings
     {
         public int LedCount { get; set; }
 

@@ -20,9 +20,9 @@ namespace PiLights
         /// </summary>
         private const string LastKnownSceneFile = "pilights-scene.txt";
 
-        private static Lazy<ConfigurationModel> lazyConfiguration = new Lazy<ConfigurationModel>(() => GetConfiguration());
+        private static Lazy<GlobalConfigurationSettings> lazyConfiguration = new Lazy<GlobalConfigurationSettings>(() => GetConfiguration());
 
-        public static ConfigurationModel Configuration
+        public static GlobalConfigurationSettings Configuration
         {
             get
             {
@@ -72,7 +72,7 @@ namespace PiLights
             return lastKnownScene;
         }
 
-        public static void WriteConfiguration(ConfigurationModel model)
+        public static void WriteConfiguration(GlobalConfigurationSettings model)
         {
             var serializedModel = JsonConvert.SerializeObject(model);
             using (StreamWriter writer = System.IO.File.CreateText(ConfigurationFile))
@@ -80,7 +80,7 @@ namespace PiLights
                 writer.WriteLine(serializedModel);
             }
 
-            lazyConfiguration = new Lazy<ConfigurationModel>(() => GetConfiguration());
+            lazyConfiguration = new Lazy<GlobalConfigurationSettings>(() => GetConfiguration());
         }
 
         public static void WriteLastKnownScene(string script)
@@ -91,13 +91,13 @@ namespace PiLights
             }
         }
 
-        private static ConfigurationModel GetConfiguration()
+        private static GlobalConfigurationSettings GetConfiguration()
         {
-            var model = new ConfigurationModel();
+            var model = new GlobalConfigurationSettings();
             if (System.IO.File.Exists(ConfigurationFile))
             {
                 var serializedModel = System.IO.File.ReadAllText(ConfigurationFile);
-                model = JsonConvert.DeserializeObject<ConfigurationModel>(serializedModel);
+                model = JsonConvert.DeserializeObject<GlobalConfigurationSettings>(serializedModel);
             }
 
             return model;

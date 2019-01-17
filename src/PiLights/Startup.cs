@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Autofac;
 using Microsoft.AspNetCore.Builder;
@@ -20,6 +21,7 @@ namespace PiLights
 
         public IConfiguration Configuration { get; }
 
+        [SuppressMessage("CA1812", "CA1812", Justification = "Startup requires instance methods.")]
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -41,6 +43,7 @@ namespace PiLights
             });
         }
 
+        [SuppressMessage("CA1812", "CA1812", Justification = "Startup requires instance methods.")]
         public void ConfigureContainer(ContainerBuilder builder)
         {
             builder.RegisterType<SceneManager>();
@@ -49,6 +52,7 @@ namespace PiLights
                 .Where(t => typeof(Scene).IsAssignableFrom(t));
         }
 
+        [SuppressMessage("CA1812", "CA1812", Justification = "Startup requires instance methods.")]
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

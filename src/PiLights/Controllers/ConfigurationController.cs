@@ -18,7 +18,7 @@ namespace PiLights.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(ConfigurationModel model)
+        public IActionResult Index(GlobalConfigurationSettings model)
         {
             ConfigurationManager.WriteConfiguration(model);
             return this.View();
