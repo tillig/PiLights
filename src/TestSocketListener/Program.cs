@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Antlr4.Runtime;
+using LightCommandParser;
+using System;
 using System.Net;
 using System.Net.Sockets;
 
@@ -23,7 +25,6 @@ namespace TestSocketListener
 
                 // Buffer for reading data
                 Byte[] bytes = new Byte[256];
-                String data = null;
 
                 // Enter the listening loop.
                 while (true)
@@ -35,26 +36,26 @@ namespace TestSocketListener
                     TcpClient client = server.AcceptTcpClient();
                     Console.WriteLine("Connected!");
 
-                    data = null;
-
                     // Get a stream object for reading and writing
                     NetworkStream stream = client.GetStream();
-
                     var i = stream.Read(bytes, 0, bytes.Length);
+
                     // Translate data bytes to a ASCII string.
-                    data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
+                    var data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
                     Console.WriteLine("Received: {0}", data);
 
-                    // Process the data sent by the client.
-                    data = data.ToUpper();
+                    // Validate the script.
+                    var result = AnalyzeScript(data);
+                    if (result.ErrorCount != 0)
+                    {
+                        Console.WriteLine("{0} errors detected", result.ErrorCount);
+                        foreach (var error in result.Errors)
+                        {
+                            Console.WriteLine("error: {0}", error);
+                        }
+                    }
 
-                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(data);
-
-                    // Send back a response.
-                    stream.Write(msg, 0, msg.Length);
-                    Console.WriteLine("Sent: {0}", data);
-
-                    // Shutdown and end connection
+                    // Shutdown and end connection - ws2812x server doesn't send any responses
                     client.Close();
                 }
             }
@@ -71,6 +72,19 @@ namespace TestSocketListener
 
             Console.WriteLine("\nHit enter to continue...");
             Console.Read();
+        }
+
+        private static ValidationListener AnalyzeScript(string script)
+        {
+            var inputStream = new AntlrInputStream(script);
+            var lexer = new LightCommandLexer(inputStream);
+            var tokenStream = new CommonTokenStream(lexer);
+            var parser = new LightCommandParser.LightCommandParser(tokenStream);
+            var listener = new ValidationListener();
+            parser.RemoveErrorListeners();
+            parser.AddErrorListener(listener);
+            parser.script();
+            return listener;
         }
     }
 }
