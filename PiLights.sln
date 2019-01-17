@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.28307.168
+VisualStudioVersion = 15.0.28307.271
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PiLights", "src\PiLights\PiLights.csproj", "{4A0AADFB-EE67-41B2-AFAA-53C7FAB6CA95}"
 EndProject
@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PiLights.Test", "test\PiLig
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightCommandParser", "src\LightCommandParser\LightCommandParser.csproj", "{EE94AB44-CE9D-4717-B84B-06B47C1F9BB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightCommandParser.Test", "test\LightCommandParser.Test\LightCommandParser.Test.csproj", "{3D70DD76-9FDF-4E0C-8DFC-8BC9E3DBBE36}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestSocketListener", "src\TestSocketListener\TestSocketListener.csproj", "{B2E7591F-31EA-4936-A9AE-DF98021659D9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightCommandParser.Test", "test\LightCommandParser.Test\LightCommandParser.Test.csproj", "{82C0CDDF-B082-4A94-AC66-7486009B4491}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +31,14 @@ Global
 		{EE94AB44-CE9D-4717-B84B-06B47C1F9BB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE94AB44-CE9D-4717-B84B-06B47C1F9BB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE94AB44-CE9D-4717-B84B-06B47C1F9BB5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3D70DD76-9FDF-4E0C-8DFC-8BC9E3DBBE36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3D70DD76-9FDF-4E0C-8DFC-8BC9E3DBBE36}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3D70DD76-9FDF-4E0C-8DFC-8BC9E3DBBE36}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3D70DD76-9FDF-4E0C-8DFC-8BC9E3DBBE36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2E7591F-31EA-4936-A9AE-DF98021659D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2E7591F-31EA-4936-A9AE-DF98021659D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2E7591F-31EA-4936-A9AE-DF98021659D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2E7591F-31EA-4936-A9AE-DF98021659D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82C0CDDF-B082-4A94-AC66-7486009B4491}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82C0CDDF-B082-4A94-AC66-7486009B4491}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82C0CDDF-B082-4A94-AC66-7486009B4491}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82C0CDDF-B082-4A94-AC66-7486009B4491}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -10,7 +10,8 @@ namespace PiLights
         {
             return builder =>
             {
-                builder.UseMiddleware<LastKnownSceneMiddleware>();
+                // TODO: This dumb crap runs on every request
+                // builder.UseMiddleware<LastKnownSceneMiddleware>();
                 next(builder);
             };
         }

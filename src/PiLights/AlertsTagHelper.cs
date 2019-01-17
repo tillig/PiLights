@@ -102,7 +102,7 @@ namespace PiLights
 
             var icon = new TagBuilder("i");
             icon.AddCssClass("material-icons");
-            icon.InnerHtml.AppendHtml(alert.Success ? "alert-success" : "error");
+            icon.InnerHtml.AppendHtml(alert.Success ? "check_circle" : "error");
             div.InnerHtml.AppendHtml(icon);
 
             var message = new TagBuilder("span");
