@@ -4,7 +4,7 @@
 
 <div class="content-area__content">
     <h1 class="section-title">Pi Lights</h1>
-    <form asp-controller="home" asp-action="StartScene" method="post">
+    <form id="scene" asp-controller="home" asp-action="StartScene" method="post">
         <fieldset class="panel">
             <alerts></alerts>
             <div class="form-group">
@@ -18,9 +18,6 @@
                 </label>
             </div>
             <div id="sceneProperties" style="display:none;"></div>
-            <div class="form-actions">
-                <input type="submit" data-clear-alerts="true" class="button" value="next" />
-            </div>
         </fieldset>
     </form>
 </div>
@@ -48,6 +45,12 @@
                 console.log('error : ' + xhr.status + ' - ' + xhr.statusText + ' - ' + xhr.responseText);
             }); 
             
+        });
+
+        $(document).on("click", "#start", function () {
+            $(this).prop("disabled", true);
+            $(this).addClass("disabled");
+            $("#scene").submit();
         });
     </script>
 }

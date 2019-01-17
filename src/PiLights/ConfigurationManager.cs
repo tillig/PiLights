@@ -32,27 +32,28 @@ namespace PiLights
 
         public static bool SendDataToSocket(string script)
         {
-            var byData = System.Text.Encoding.ASCII.GetBytes(script);
-
+            var msg = System.Text.Encoding.ASCII.GetBytes(script);
             var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            var ipAdd = System.Net.IPAddress.Parse(Configuration.ServerIP);
-            var remoteEP = new IPEndPoint(ipAdd, Configuration.ServerPort);
+            var ipAddress = System.Net.IPAddress.Parse(Configuration.ServerIP);
+            var endpoint = new IPEndPoint(ipAddress, Configuration.ServerPort);
             var tries = 0;
             var success = false;
+            byte[] received = new byte[256];
 
             while (tries < 1 && !success)
             {
                 try
                 {
-                    socket.Connect(remoteEP);
-                    socket.Send(byData);
-                    socket.Disconnect(true);
+                    socket.Connect(endpoint);
+                    socket.Send(msg, 0, msg.Length, SocketFlags.None);
+                    socket.Receive(received, 0, socket.Available, SocketFlags.None);
                     socket.Shutdown(SocketShutdown.Both);
                     socket.Close();
                     success = true;
                 }
-                catch
+                catch (Exception ex)
                 {
+                    Console.WriteLine(ex.InnerException);
                     Thread.Sleep(5000);
                     tries++;
                 }
