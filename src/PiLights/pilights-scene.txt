@@ -1,0 +1,1 @@
+setup 1,600,3;init;thread_start;fill 1,004080;render;thread_stop;
