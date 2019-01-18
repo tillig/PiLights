@@ -23,7 +23,7 @@ namespace PiLights.Test.Scenes
 
         private class NoNameScene : Scene
         {
-            public override string GenerateScript()
+            public override string GetSceneImplementation()
             {
                 throw new NotImplementedException();
             }
@@ -32,7 +32,7 @@ namespace PiLights.Test.Scenes
         [DisplayName("Named")]
         private class NamedScene : Scene
         {
-            public override string GenerateScript()
+            public override string GetSceneImplementation()
             {
                 throw new NotImplementedException();
             }

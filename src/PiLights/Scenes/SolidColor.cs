@@ -16,7 +16,7 @@ render";
         [TypeConverter(typeof(HexColorConverter))]
         public string Color { get; set; }
 
-        public override string GenerateScript()
+        public override string GetSceneImplementation()
         {
             return string.Format(CultureInfo.InvariantCulture, this.template, this.Color);
         }

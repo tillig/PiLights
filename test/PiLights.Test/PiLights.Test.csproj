@@ -25,6 +25,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\LightCommandParser\LightCommandParser.csproj" />
     <ProjectReference Include="..\..\src\PiLights\PiLights.csproj" />
   </ItemGroup>
   <ItemGroup>

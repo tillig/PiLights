@@ -45,7 +45,7 @@ namespace TestSocketListener
                     Console.WriteLine("Received: {0}", data);
 
                     // Validate the script.
-                    var result = AnalyzeScript(data);
+                    var result = LightCommandAnalyzer.AnalyzeScript(data);
                     if (result.ErrorCount != 0)
                     {
                         Console.WriteLine("{0} errors detected", result.ErrorCount);
@@ -72,19 +72,6 @@ namespace TestSocketListener
 
             Console.WriteLine("\nHit enter to continue...");
             Console.Read();
-        }
-
-        private static ValidationListener AnalyzeScript(string script)
-        {
-            var inputStream = new AntlrInputStream(script);
-            var lexer = new LightCommandLexer(inputStream);
-            var tokenStream = new CommonTokenStream(lexer);
-            var parser = new LightCommandParser.LightCommandParser(tokenStream);
-            var listener = new ValidationListener();
-            parser.RemoveErrorListeners();
-            parser.AddErrorListener(listener);
-            parser.script();
-            return listener;
         }
     }
 }

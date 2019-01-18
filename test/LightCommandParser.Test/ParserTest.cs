@@ -7,9 +7,9 @@ using Xunit.Abstractions;
 
 namespace LightCommandParser.Test
 {
-    public class ParserTests
+    public class ParserTest
     {
-        public ParserTests(ITestOutputHelper output)
+        public ParserTest(ITestOutputHelper output)
         {
             this.Output = output;
         }

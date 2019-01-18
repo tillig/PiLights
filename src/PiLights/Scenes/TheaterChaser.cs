@@ -22,7 +22,7 @@ loop {2}";
         [DisplayName("Color")]
         public string Color { get; set; }
 
-        public override string GenerateScript()
+        public override string GetSceneImplementation()
         {
             return string.Format(CultureInfo.InvariantCulture, this.template, this.Color, this.ChaseSpeed, ConfigurationManager.Configuration.LedCount);
         }

@@ -11,7 +11,7 @@ instructions : threaded | body ;
 
 threaded : WS* 'thread_start' SEMI body WS* 'thread_stop' SEMI ;
 
-body : (render | rotate | rainbow | fill | delay | brightness | fade | gradient | random | blink | loop | globalbrightness)*;
+body : (render | rotate | rainbow | fill | delay | brightness | fade | gradient | random | blink | loop | globalbrightness)+;
 
 loop : WS* 'do' SEMI body WS* 'loop' (WS+ DIGIT+)? SEMI ;
 

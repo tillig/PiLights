@@ -14,6 +14,20 @@ thread_stop
 
         public virtual bool Execute()
         {
+            var script = this.GenerateScript();
+            var result = ConfigurationManager.SendDataToSocket(script);
+            if (result)
+            {
+                ConfigurationManager.WriteLastKnownScene(script);
+            }
+
+            return result;
+        }
+
+        public abstract string GetSceneImplementation();
+
+        public string GenerateScript()
+        {
             // Commands via TCP need to...
             // - send the init directive
             // - start/end a thread around the render part
@@ -24,21 +38,13 @@ thread_stop
             // ws2812svr gets super picky if you miss any of those things
             // and won't render anything. The end semicolon in particular
             // will get you.
-            var script = WrapScriptWithSetup(this.GenerateScript()).Trim().Replace("\r\n", "\n", StringComparison.Ordinal).Replace('\n', ';') + ";";
-            var result = ConfigurationManager.SendDataToSocket(script);
-            if (result)
-            {
-                ConfigurationManager.WriteLastKnownScene(script);
-            }
-
-            return result;
-        }
-
-        public abstract string GenerateScript();
-
-        private static string WrapScriptWithSetup(string script)
-        {
-            return string.Format(CultureInfo.InvariantCulture, Wrapper, ConfigurationManager.Configuration.LedCount, (int)ConfigurationManager.Configuration.LedType, ConfigurationManager.Configuration.GlobalBrightness, script);
+            return string.Format(
+                CultureInfo.InvariantCulture,
+                Wrapper,
+                ConfigurationManager.Configuration.LedCount,
+                (int)ConfigurationManager.Configuration.LedType,
+                ConfigurationManager.Configuration.GlobalBrightness,
+                this.GetSceneImplementation()).Trim().Replace("\r\n", "\n", StringComparison.Ordinal).Replace('\n', ';') + ";";
         }
     }
 }
