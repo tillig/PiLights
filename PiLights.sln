@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestSocketListener", "src\T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightCommandParser.Test", "test\LightCommandParser.Test\LightCommandParser.Test.csproj", "{82C0CDDF-B082-4A94-AC66-7486009B4491}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{BE65795F-90CB-44CB-AB44-8F2150BAEA0E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{659D61E6-BEFD-4763-82A8-2E1D1C2899B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +46,13 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4A0AADFB-EE67-41B2-AFAA-53C7FAB6CA95} = {BE65795F-90CB-44CB-AB44-8F2150BAEA0E}
+		{E87C1BD6-AEB0-4D62-8D6A-7CC52C9BC49C} = {659D61E6-BEFD-4763-82A8-2E1D1C2899B5}
+		{EE94AB44-CE9D-4717-B84B-06B47C1F9BB5} = {BE65795F-90CB-44CB-AB44-8F2150BAEA0E}
+		{B2E7591F-31EA-4936-A9AE-DF98021659D9} = {BE65795F-90CB-44CB-AB44-8F2150BAEA0E}
+		{82C0CDDF-B082-4A94-AC66-7486009B4491} = {659D61E6-BEFD-4763-82A8-2E1D1C2899B5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {80AB411B-6A1D-4862-B986-267A1F0B43D1}

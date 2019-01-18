@@ -31,6 +31,8 @@ namespace LightCommandParser.Test
         [InlineData("setup 1,100,3,0,255,18;init;")]
         [InlineData("setup 1,100,3;init;render;")]
         [InlineData("setup 1,100,3;init;thread_start;render;thread_stop;")]
+        [InlineData("setup 1,100,3;init;thread_start;do;rotate 1,1,2;render;delay 200;loop;thread_stop;")]
+        [InlineData("setup 1,10,5; init; rainbow; global_brightness 1,32; render; do; do; rotate; render; delay 100; loop 30; do; rotate 1,1,2; render; delay 100; loop 30; loop;")]
         public void ValidScripts(string script)
         {
             var listener = AnalyzeScript(script);
