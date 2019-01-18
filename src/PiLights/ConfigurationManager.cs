@@ -38,7 +38,6 @@ namespace PiLights
             var endpoint = new IPEndPoint(ipAddress, Configuration.ServerPort);
             var tries = 0;
             var success = false;
-            byte[] received = new byte[256];
 
             while (tries < 1 && !success)
             {
@@ -46,7 +45,6 @@ namespace PiLights
                 {
                     socket.Connect(endpoint);
                     socket.Send(msg, 0, msg.Length, SocketFlags.None);
-                    socket.Receive(received, 0, socket.Available, SocketFlags.None);
                     socket.Shutdown(SocketShutdown.Both);
                     socket.Close();
                     success = true;
@@ -65,9 +63,9 @@ namespace PiLights
         public static string GetLastKnownScene()
         {
             string lastKnownScene = null;
-            if (System.IO.File.Exists(LastKnownSceneFile))
+            if (File.Exists(LastKnownSceneFile))
             {
-                lastKnownScene = System.IO.File.ReadAllText(LastKnownSceneFile);
+                lastKnownScene = File.ReadAllText(LastKnownSceneFile);
             }
 
             return lastKnownScene;
@@ -76,7 +74,7 @@ namespace PiLights
         public static void WriteConfiguration(GlobalConfigurationSettings model)
         {
             var serializedModel = JsonConvert.SerializeObject(model);
-            using (StreamWriter writer = System.IO.File.CreateText(ConfigurationFile))
+            using (StreamWriter writer = File.CreateText(ConfigurationFile))
             {
                 writer.WriteLine(serializedModel);
             }
@@ -86,7 +84,7 @@ namespace PiLights
 
         public static void WriteLastKnownScene(string script)
         {
-            using (StreamWriter writer = System.IO.File.CreateText(LastKnownSceneFile))
+            using (StreamWriter writer = File.CreateText(LastKnownSceneFile))
             {
                 writer.WriteLine(script);
             }
@@ -95,9 +93,9 @@ namespace PiLights
         private static GlobalConfigurationSettings GetConfiguration()
         {
             var model = new GlobalConfigurationSettings();
-            if (System.IO.File.Exists(ConfigurationFile))
+            if (File.Exists(ConfigurationFile))
             {
-                var serializedModel = System.IO.File.ReadAllText(ConfigurationFile);
+                var serializedModel = File.ReadAllText(ConfigurationFile);
                 model = JsonConvert.DeserializeObject<GlobalConfigurationSettings>(serializedModel);
             }
 
