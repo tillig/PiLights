@@ -11,29 +11,31 @@ instructions : threaded | body ;
 
 threaded : WS* 'thread_start' SEMI body WS* 'thread_stop' SEMI ;
 
-body : render | rotate | rainbow | fill | delay | brightness | fade | gradient | random | blink | loop ;
+body : (render | rotate | rainbow | fill | delay | brightness | fade | gradient | random | blink | loop | globalbrightness)*;
 
 loop : WS* 'do' SEMI body WS* 'loop' (WS+ DIGIT+)? SEMI ;
 
-render : WS* 'render' (WS+ DIGIT+ (',' WS+ DIGIT+ (',' WS+ COLOR)?)?)? SEMI ;
+render : WS* 'render' (WS+ DIGIT+ (',' WS* DIGIT+ (',' WS* COLOR)?)?)? SEMI ;
 
-rotate : WS* 'rotate' (WS+ DIGIT+ (',' WS+ DIGIT+ (',' WS+ DIGIT+ (',' WS+ COLOR)?)?)?)? SEMI ;
+rotate : WS* 'rotate' (WS+ DIGIT+ (',' WS* DIGIT+ (',' WS* DIGIT+ (',' WS* COLOR)?)?)?)? SEMI ;
 
-rainbow : WS* 'rainbow' (WS+ DIGIT+ (',' WS+ DIGIT+ (',' WS+ DIGIT+ (',' WS+ DIGIT+)?)?)?)? SEMI ;
+rainbow : WS* 'rainbow' (WS+ DIGIT+ (',' WS* DIGIT+ (',' WS* DIGIT+ (',' WS* DIGIT+)?)?)?)? SEMI ;
 
-fill : WS* 'fill' (WS+ DIGIT+ (',' WS+ COLOR (',' WS+ DIGIT+ (',' WS+ DIGIT+)?)?)?)? SEMI ;
+fill : WS* 'fill' (WS+ DIGIT+ (',' WS* COLOR (',' WS* DIGIT+ (',' WS* DIGIT+)?)?)?)? SEMI ;
 
 delay : WS* 'delay' WS+ DIGIT+ SEMI ;
 
-brightness : WS* 'brightness' (WS+ DIGIT+ (',' WS+ DIGIT+ (',' WS+ DIGIT+ (',' WS+ DIGIT+)?)?)?)? SEMI ;
+brightness : WS* 'brightness' (WS+ DIGIT+ (',' WS* DIGIT+ (',' WS* DIGIT+ (',' WS* DIGIT+)?)?)?)? SEMI ;
 
-fade : WS* 'fade' (WS+ DIGIT+ (',' WS+ DIGIT+ (',' WS+ DIGIT+ (',' WS+ DIGIT+ (',' WS+ DIGIT+ (',' WS+ DIGIT+ (',' WS+ DIGIT+)?)?)?)?)?)?)? SEMI ;
+fade : WS* 'fade' (WS+ DIGIT+ (',' WS* DIGIT+ (',' WS* DIGIT+ (',' WS* DIGIT+ (',' WS* DIGIT+ (',' WS* DIGIT+ (',' WS* DIGIT+)?)?)?)?)?)?)? SEMI ;
 
-gradient : WS* 'gradient' WS+ DIGIT+ ',' WS+ RGBWL (',' WS+ DIGIT+ (',' WS+ DIGIT+ (',' WS+ DIGIT+ (',' WS+ DIGIT+)?)?)?)? SEMI ;
+gradient : WS* 'gradient' WS+ DIGIT+ ',' WS* RGBWL (',' WS* DIGIT+ (',' WS* DIGIT+ (',' WS* DIGIT+ (',' WS* DIGIT+)?)?)?)? SEMI ;
 
-random : WS* 'random' WS+ DIGIT+ ',' WS+ DIGIT+ ',' WS+ DIGIT+ ',' WS+ RGBWL+ SEMI ;
+random : WS* 'random' WS+ DIGIT+ ',' WS* DIGIT+ ',' WS* DIGIT+ ',' WS* RGBWL+ SEMI ;
 
-blink : WS* 'blink' WS+ DIGIT+ ',' WS+ COLOR ',' WS+ COLOR ',' WS+ DIGIT+ ',' WS+ DIGIT+ ',' WS+ DIGIT+ ',' WS+ DIGIT+ SEMI ;
+blink : WS* 'blink' WS+ DIGIT+ ',' WS* COLOR ',' WS* COLOR ',' WS* DIGIT+ ',' WS* DIGIT+ ',' WS* DIGIT+ ',' WS* DIGIT+ SEMI ;
+
+globalbrightness : WS* 'global_brightness' WS+ DIGIT+ ',' WS* DIGIT+ SEMI ;
 
 COLOR : [a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9] ;
 
