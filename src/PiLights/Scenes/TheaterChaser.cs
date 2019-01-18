@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using PiLights.Services;
 
 namespace PiLights.Scenes
 {
@@ -14,17 +15,18 @@ do
   delay {1}
   rotate
   render
-loop {2}";
+loop";
 
         [DisplayName("Chase Speed")]
         public int ChaseSpeed { get; set; }
 
-        [DisplayName("Color")]
+        [DisplayName(nameof(Color))]
+        [TypeConverter(typeof(HexColorConverter))]
         public string Color { get; set; }
 
         public override string GetSceneImplementation()
         {
-            return string.Format(CultureInfo.InvariantCulture, this.template, this.Color, this.ChaseSpeed, ConfigurationManager.Configuration.LedCount);
+            return string.Format(CultureInfo.InvariantCulture, this.template, this.Color, this.ChaseSpeed);
         }
     }
 }
