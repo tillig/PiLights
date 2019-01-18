@@ -5,10 +5,10 @@ namespace PiLights.Scenes
 {
     public abstract class Scene
     {
-        private const string Wrapper = @"setup 1,{0},{1}
+        private const string Wrapper = @"setup 1,{0},{1},0,{2}
 init
 thread_start
-{2}
+{3}
 thread_stop
 ";
 
@@ -38,7 +38,7 @@ thread_stop
 
         private static string WrapScriptWithSetup(string script)
         {
-            return string.Format(CultureInfo.InvariantCulture, Wrapper, ConfigurationManager.Configuration.LedCount, (int)ConfigurationManager.Configuration.LedType, script);
+            return string.Format(CultureInfo.InvariantCulture, Wrapper, ConfigurationManager.Configuration.LedCount, (int)ConfigurationManager.Configuration.LedType, ConfigurationManager.Configuration.GlobalBrightness, script);
         }
     }
 }
