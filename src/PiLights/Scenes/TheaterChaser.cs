@@ -20,6 +20,9 @@ loop";
         [DisplayName("Chase Speed")]
         public int ChaseSpeed { get; set; }
 
+        [DisplayName("Chase Quantity")]
+        public int ChaseQuantity { get; set; }
+
         [DisplayName(nameof(Color))]
         [TypeConverter(typeof(HexColorConverter))]
         public string Color { get; set; }

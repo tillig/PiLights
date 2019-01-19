@@ -7,7 +7,7 @@
 {
 <div class="form-group">
     <label>
-        <span class="label">@prop.Name</span>
+        <span class="label">@prop.GetDisplayName()</span>
         <span>
             @if (prop.Name.Equals("color", StringComparison.OrdinalIgnoreCase))
             {
@@ -20,7 +20,7 @@
         </span>
     </label>
 </div>
-<div class="form-actions">
-    <input type="submit" name="start" id="start" data-clear-alerts="true" class="btn btn-primary" value="NEXT" role="button" />
-</div>
 }
+<div class="form-actions">
+    <input type="submit" name="start" id="start" data-clear-alerts="true" class="btn btn-primary" value="Apply" role="button" />
+</div>
