@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Globalization;
 using System.Linq;
+using HandlebarsDotNet;
 using PiLights.Services;
 
 namespace PiLights.Scenes
@@ -9,19 +9,26 @@ namespace PiLights.Scenes
     [DisplayName("Theater Chaser")]
     public class TheaterChaser : Scene
     {
-        private readonly string template = @"fill 1,{0},0,1
+        private const string Template = @"{{#each chasers}}fill 1,{{../color}},{{this}},1
+{{/each}}
 render
 do
-  delay {1}
+  delay {{chaseSpeed}}
   rotate
   render
 loop";
 
-        [DisplayName("Chase Speed")]
-        public int ChaseSpeed { get; set; }
+        private static readonly Func<object, string> CompiledTemplate = Handlebars.Compile(Template);
 
+        // Ideally there'd be a way to limit this to something that's evenly
+        // divisible into the LED quantity. 600 LEDs, 20 chasers works; 600 LEDs
+        // with 17 chasers doesn't. Depending on how the template works, I was able
+        // to actually crash the ws2812svr process and hang the whole RPi.
         [DisplayName("Chase Quantity")]
         public int ChaseQuantity { get; set; }
+
+        [DisplayName("Chase Speed")]
+        public int ChaseSpeed { get; set; }
 
         [DisplayName(nameof(Color))]
         [TypeConverter(typeof(HexColorConverter))]
@@ -29,7 +36,25 @@ loop";
 
         public override string GetSceneImplementation()
         {
-            return string.Format(CultureInfo.InvariantCulture, this.template, this.Color, this.ChaseSpeed);
+            // This is how much space should be between each chaser.
+            // 600 LEDs, 20 chasers = every 30 lights is a chaser light.
+            var chaseSpacer = ConfigurationManager.Configuration.LedCount / this.ChaseQuantity;
+
+            // Generate the sequence of light indexes that should be on
+            // to start with.
+            var chasers = Enumerable.Range(0, ConfigurationManager.Configuration.LedCount - 1)
+                .Where(i => i % chaseSpacer == 0)
+                .ToArray();
+
+            var data = new
+            {
+                color = this.Color,
+                chaseSpeed = this.ChaseSpeed,
+                chasers,
+            };
+
+            var generated = CompiledTemplate(data);
+            return generated;
         }
     }
 }
