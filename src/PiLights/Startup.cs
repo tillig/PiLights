@@ -56,7 +56,6 @@ namespace PiLights
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddTransient<IStartupFilter, StartupFilter>();
             services.AddDistributedMemoryCache();
             services.AddSession();
         }

@@ -75,20 +75,6 @@ body {
     padding-right: 15px;
 }
 
-.button {
-    background: #6699cc;
-    border: 1px solid #6699cc;
-    border-radius: 0.3125rem;
-    color: #ffffff;
-    font-size: 0.75rem;
-    font-weight: 600;
-    height: 1.875rem;
-    margin-right: 0.625rem;
-    padding: 0 1.5625rem;
-    text-transform: uppercase;
-    width: auto;
-}
-
 /* Carousel */
 .carousel-caption p {
     font-size: 20px;

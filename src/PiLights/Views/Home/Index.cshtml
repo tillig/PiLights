@@ -26,6 +26,7 @@
 {
     <script>
         $('#sceneName').change(function () {
+            $("div[role='alert']").hide();
             var selected = $(this).val();
             var postData = {
                 sceneName: selected
