@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 
@@ -21,6 +22,38 @@ namespace PiLights
             }
 
             return property.Name;
+        }
+
+        public static int GetMaxLength(this PropertyInfo property)
+        {
+            if (property == null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
+            var maxLength = property.GetCustomAttribute<MaxLengthAttribute>();
+            if (maxLength != null)
+            {
+                return maxLength.Length;
+            }
+
+            return int.MaxValue;
+        }
+
+        public static int GetMaxValue(this PropertyInfo property)
+        {
+            if (property == null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
+            var attr = property.GetCustomAttribute<MaxAttribute>();
+            if (attr != null)
+            {
+                return attr.Maximum;
+            }
+
+            return int.MaxValue;
         }
     }
 }

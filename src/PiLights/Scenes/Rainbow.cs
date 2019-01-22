@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Linq;
 using HandlebarsDotNet;
 
 namespace PiLights.Scenes
@@ -19,6 +18,7 @@ loop{{/if}}";
         private static readonly Func<object, string> CompiledTemplate = Handlebars.Compile(Template);
 
         [DisplayName("Chase Speed (0 for no chase)")]
+        [Max(999)]
         public int ChaseSpeed { get; set; }
 
         public override string GetSceneImplementation()

@@ -25,9 +25,11 @@ loop";
         // with 17 chasers doesn't. Depending on how the template works, I was able
         // to actually crash the ws2812svr process and hang the whole RPi.
         [DisplayName("Chase Quantity")]
+        [Max(10)]
         public int ChaseQuantity { get; set; }
 
         [DisplayName("Chase Speed")]
+        [Max(10)]
         public int ChaseSpeed { get; set; }
 
         [DisplayName(nameof(Color))]

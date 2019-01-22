@@ -11,11 +11,15 @@
         <span>
             @if (prop.Name.Equals("color", StringComparison.OrdinalIgnoreCase))
             {
-            @Html.Editor(@prop.Name, new { htmlAttributes = new { @class = "form-control", required = "required", type = "color", style = "width:40px;padding:0;" } })
+                @Html.Editor(@prop.Name, new { htmlAttributes = new { @class = "form-control", required = "required", type = "color", style = "width:40px;padding:0;" } })
+            }
+            else if (prop.PropertyType == typeof(int))
+            {
+                <input name="@prop.Name" class="control" autocomplete="off" autofocus="autofocus" type="number" max="@prop.GetMaxValue()" required oninvalid="this.setCustomValidity('Please provide a @prop.GetDisplayName() less than @(prop.GetMaxValue()+1)')" onkeyup="this.setCustomValidity('')" onchange="this.setCustomValidity('')" />
             }
             else
             {
-            <input name="@prop.Name" class="control" autocomplete="off" autofocus="autofocus" />
+                <input name="@prop.Name" class="control" autocomplete="off" autofocus="autofocus" type="text" maxlength="@prop.GetMaxLength()" required oninvalid="this.setCustomValidity('Please provide a @prop.GetDisplayName()')" onkeyup="this.setCustomValidity('')" onchange="this.setCustomValidity('')" />
             }
         </span>
     </label>

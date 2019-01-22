@@ -48,10 +48,9 @@
             
         });
 
-        $(document).on("click", "#start", function () {
+        $(document).on("submit", "#start", function () {
             $(this).prop("disabled", true);
             $(this).addClass("disabled");
-            $("#scene").submit();
         });
     </script>
 }
