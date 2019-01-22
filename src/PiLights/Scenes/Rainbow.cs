@@ -18,7 +18,7 @@ loop{{/if}}";
         private static readonly Func<object, string> CompiledTemplate = Handlebars.Compile(Template);
 
         [DisplayName("Chase Speed (0 for no chase)")]
-        [Max(999)]
+        [Max(1000)]
         public int ChaseSpeed { get; set; }
 
         public override string GetSceneImplementation()

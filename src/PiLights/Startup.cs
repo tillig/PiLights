@@ -22,7 +22,7 @@ namespace PiLights
         public IConfiguration Configuration { get; }
 
         [SuppressMessage("CA1812", "CA1812", Justification = "Startup requires instance methods.")]
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public static void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -41,10 +41,16 @@ namespace PiLights
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            var lastKnownScene = ConfigurationManager.GetLastKnownScene();
+            if (lastKnownScene != null)
+            {
+                ConfigurationManager.SendDataToSocket(lastKnownScene);
+            }
         }
 
         [SuppressMessage("CA1812", "CA1812", Justification = "Startup requires instance methods.")]
-        public void ConfigureContainer(ContainerBuilder builder)
+        public static void ConfigureContainer(ContainerBuilder builder)
         {
             builder.RegisterType<SceneManager>();
             builder
@@ -53,7 +59,7 @@ namespace PiLights
         }
 
         [SuppressMessage("CA1812", "CA1812", Justification = "Startup requires instance methods.")]
-        public void ConfigureServices(IServiceCollection services)
+        public static void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddDistributedMemoryCache();
