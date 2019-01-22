@@ -5,11 +5,17 @@ namespace PiLights.Scenes
 {
     public abstract class Scene
     {
-        // TODO: Send the setup from the ws2812svr startup OR just once.
-        // There is a bug where running setup multiple times may cause a hang.
+        // TODO: Ensure a max script length or figure out why large scripts hang.
+        // Unclear if it's this issue where multiple init calls cause a lock up
         // https://github.com/tom-2015/rpi-ws2812-server/issues/20
-        // I've noticed that either this is happening OR the script is too
-        // long and causing something to fail. Need to look into this more.
+        // but I do see that if the script is too long it hangs the whole RPi.
+        // Don't know if it has to do with how complex the operations are
+        // when the init hits. Running a theater chaser with 48
+        // lights generates a 1062 char script. Running this a second
+        // time in a row causes a lock up and the RPi stops responding on
+        // the network. I thought it was a script length problem but that
+        // doesn't seem to be consistent. I also tried streaming the script in
+        // blocks of 1024 in case the ws2812svr had a buffer problem, no luck.
         private const string Wrapper = @"setup 1,{0},{1},0,{2}
 init
 thread_start
