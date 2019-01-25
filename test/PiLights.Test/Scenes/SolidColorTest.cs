@@ -1,5 +1,5 @@
 ﻿using System;
-using LightCommandParser;
+using LightCommandLanguage;
 using PiLights.Scenes;
 using Xunit;
 

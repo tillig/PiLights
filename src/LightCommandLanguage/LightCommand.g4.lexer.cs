@@ -1,4 +1,4 @@
-﻿namespace LightCommandParser
+﻿namespace LightCommandLanguage
 {
     partial class LightCommandLexer
     {

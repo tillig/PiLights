@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Misc;
 
-namespace LightCommandParser
+namespace LightCommandLanguage
 {
     public class ValidationListener : BaseErrorListener
     {

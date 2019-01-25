@@ -5,7 +5,7 @@ using Antlr4.Runtime.Misc;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace LightCommandParser.Test
+namespace LightCommandLanguage.Test
 {
     public class ParserTest
     {

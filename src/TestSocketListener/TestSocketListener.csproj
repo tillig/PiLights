@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LightCommandParser\LightCommandParser.csproj" />
+    <ProjectReference Include="..\LightCommandLanguage\LightCommandLanguage.csproj" />
   </ItemGroup>
 
 </Project>

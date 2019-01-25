@@ -1,7 +1,7 @@
 ﻿using System;
 using Antlr4.Runtime;
 
-namespace LightCommandParser
+namespace LightCommandLanguage
 {
     public static class LightCommandAnalyzer
     {
