@@ -5,6 +5,8 @@
         <Rule Id="CA1707" Action="None" />
     </Rules>
     <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
+        <!-- Fields can't start with underscore -->
+        <Rule Id="SA1309" Action="None" />
         <!-- Require documentation -->
         <Rule Id="SA1600" Action="None" />
         <!-- File headers -->

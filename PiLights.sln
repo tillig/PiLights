@@ -17,7 +17,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{BE65795F-90C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{659D61E6-BEFD-4763-82A8-2E1D1C2899B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolidColor", "src\SolidColor\SolidColor.csproj", "{2EC9D563-160A-4044-ABD1-9FC7A504389D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleDemo", "src\ConsoleDemo\ConsoleDemo.csproj", "{2EC9D563-160A-4044-ABD1-9FC7A504389D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddressableLed", "src\AddressableLed\AddressableLed.csproj", "{851F9130-565C-46BF-A309-ACC162CEE853}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,10 @@ Global
 		{2EC9D563-160A-4044-ABD1-9FC7A504389D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2EC9D563-160A-4044-ABD1-9FC7A504389D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2EC9D563-160A-4044-ABD1-9FC7A504389D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{851F9130-565C-46BF-A309-ACC162CEE853}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{851F9130-565C-46BF-A309-ACC162CEE853}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{851F9130-565C-46BF-A309-ACC162CEE853}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{851F9130-565C-46BF-A309-ACC162CEE853}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +66,7 @@ Global
 		{B2E7591F-31EA-4936-A9AE-DF98021659D9} = {BE65795F-90CB-44CB-AB44-8F2150BAEA0E}
 		{82C0CDDF-B082-4A94-AC66-7486009B4491} = {659D61E6-BEFD-4763-82A8-2E1D1C2899B5}
 		{2EC9D563-160A-4044-ABD1-9FC7A504389D} = {BE65795F-90CB-44CB-AB44-8F2150BAEA0E}
+		{851F9130-565C-46BF-A309-ACC162CEE853} = {BE65795F-90CB-44CB-AB44-8F2150BAEA0E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {80AB411B-6A1D-4862-B986-267A1F0B43D1}

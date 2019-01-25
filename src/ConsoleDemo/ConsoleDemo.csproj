@@ -20,4 +20,7 @@
   <ItemGroup>
     <AdditionalFiles Include="../../build/stylecop.json" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AddressableLed\AddressableLed.csproj" />
+  </ItemGroup>
 </Project>
