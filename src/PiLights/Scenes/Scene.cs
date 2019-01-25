@@ -6,7 +6,7 @@ namespace PiLights.Scenes
 {
     public abstract class Scene
     {
-        // TODO: Ensure a max script length.
+        // TODO: Ensure a max script length if we're still using the TCP connector.
         // I thought it was a bug where we were sending setup/init each time...
         // https://github.com/tom-2015/rpi-ws2812-server/issues/20
         // ...but we can send any number of smaller scripts that include setup

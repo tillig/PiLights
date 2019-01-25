@@ -112,13 +112,6 @@ namespace AddressableLed
         {
             if (!this.disposedValue)
             {
-                if (disposing)
-                {
-                    // TODO: dispose managed state (managed objects).
-                }
-
-                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-                // TODO: set large fields to null.
                 if (this._isDisposingAllowed)
                 {
                     NativeMethods.ws2811_fini(ref this._ws2811);
