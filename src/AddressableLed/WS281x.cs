@@ -35,10 +35,8 @@ namespace AddressableLed
             this._ws2811.dmanum = settings.DMAChannel;
             this._ws2811.freq = settings.Frequency;
             this._ws2811.channel_0 = default(ws2811_channel_t);
-            this._ws2811.channel_1 = default(ws2811_channel_t);
 
             this.InitChannel(this._ws2811.channel_0, settings.Channels[0]);
-            this.InitChannel(this._ws2811.channel_1, settings.Channels[1]);
             this.Settings = settings;
 
             var initResult = NativeMethods.ws2811_init(ref this._ws2811);
@@ -77,28 +75,8 @@ namespace AddressableLed
         {
             for (var i = 0; i < this.Settings.Channels.Count; i++)
             {
-                var channel = default(ws2811_channel_t);
-                channel.leds = IntPtr.Zero;
-                if (this.Settings.Channels[i] != null)
-                {
-                    switch (i)
-                    {
-                        case 0:
-                            channel = this._ws2811.channel_0;
-                            break;
-                        case 1:
-                            channel = this._ws2811.channel_1;
-                            break;
-                        default:
-                            break;
-                    }
-
-                    if (channel.leds != IntPtr.Zero)
-                    {
-                        var ledColor = this.Settings.Channels[i].LEDs.Select(x => x.RGBValue).ToArray();
-                        Marshal.Copy(ledColor, 0, channel.leds, ledColor.Count());
-                    }
-                }
+                var ledColor = this.Settings.Channels[i].LEDs.Select(x => x.RGBValue).ToArray();
+                Marshal.Copy(ledColor, 0, this._ws2811.channel_0.leds, ledColor.Count());
             }
 
             var result = NativeMethods.ws2811_render(ref this._ws2811);
