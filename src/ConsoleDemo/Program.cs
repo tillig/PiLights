@@ -19,8 +19,8 @@ namespace ConsoleDemo
             var settings = new Settings();
             settings.Channels.Add(new Channel(540, 18, 64, false, StripType.WS2812_STRIP));
 
-            // TODO: using (ILedController controller = new WS281x(settings))
-            using (ILedController controller = new StubLedController(settings))
+            // using (ILedController controller = new StubLedController(settings))
+            using (ILedController controller = new WS281x(settings))
             {
                 var animations = new IAnimation[]
                 {
