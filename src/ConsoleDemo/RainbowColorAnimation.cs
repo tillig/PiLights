@@ -19,9 +19,9 @@ namespace ConsoleDemo
                 Color.FromArgb(0x200010),
             };
 
-        private readonly WS281x _controller;
+        private readonly ILedController _controller;
 
-        public RainbowColorAnimation(WS281x controller)
+        public RainbowColorAnimation(ILedController controller)
         {
             this._controller = controller;
         }
@@ -41,8 +41,13 @@ namespace ConsoleDemo
                 }
 
                 colorOffset++;
-                Thread.Sleep(50);
+                Thread.Sleep(10);
             }
+        }
+
+        public override string ToString()
+        {
+            return "Rainbow";
         }
     }
 }

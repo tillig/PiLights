@@ -10,7 +10,7 @@ namespace AddressableLed
     /// <summary>
     /// Wrapper class to control WS281x LEDs.
     /// </summary>
-    public class WS281x : IDisposable
+    public class WS281x : ILedController
     {
         private bool _isDisposingAllowed;
 

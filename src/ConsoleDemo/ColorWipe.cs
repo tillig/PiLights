@@ -10,9 +10,9 @@ namespace ConsoleDemo
     {
         private readonly Color _color;
 
-        private readonly WS281x _controller;
+        private readonly ILedController _controller;
 
-        public ColorWipe(WS281x controller, Color color)
+        public ColorWipe(ILedController controller, Color color)
         {
             this._controller = controller;
             this._color = color;
@@ -24,8 +24,13 @@ namespace ConsoleDemo
             {
                 this._controller.SetLEDColor(0, i, this._color);
                 this._controller.Render();
-                Thread.Sleep(1000 / 15);
+                Thread.Sleep(10);
             }
+        }
+
+        public override string ToString()
+        {
+            return $"Color wipe: {this._color.ToString()}";
         }
     }
 }
