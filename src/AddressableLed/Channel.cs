@@ -5,16 +5,6 @@ namespace AddressableLed
 {
     public class Channel
     {
-        public Channel()
-            : this(0, 0)
-        {
-        }
-
-        public Channel(int ledCount, int gpioPin)
-            : this(ledCount, gpioPin, 255, false, StripType.Unknown)
-        {
-        }
-
         public Channel(int ledCount, int gpioPin, byte brightness, bool invert, StripType stripType)
         {
             this.GPIOPin = gpioPin;
