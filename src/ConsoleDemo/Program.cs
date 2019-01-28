@@ -17,9 +17,10 @@ namespace ConsoleDemo
             // https://github.com/rpi-ws281x/rpi-ws281x-csharp
             // https://github.com/chris579/rpi_ws281x.Net
             var settings = new Settings();
-            settings.Channels[0] = new Channel(540, 18, 64, false, StripType.WS2812_STRIP);
+            settings.Channels.Add(new Channel(540, 18, 64, false, StripType.WS2812_STRIP));
 
-            using (var controller = new WS281x(settings))
+            // TODO: using (ILedController controller = new WS281x(settings))
+            using (ILedController controller = new StubLedController(settings))
             {
                 var animations = new IAnimation[]
                 {
@@ -38,12 +39,15 @@ namespace ConsoleDemo
                         {
                             foreach (var animation in animations)
                             {
+                                Console.WriteLine(animation.ToString());
                                 animation.Execute(tokenSource.Token);
+                                Thread.Sleep(1000);
                             }
                         }
                     },
                     tokenSource.Token);
                 Console.ReadKey();
+                Console.WriteLine("Finishing up.");
                 tokenSource.Cancel();
                 task.Wait();
                 var off = new ColorWipe(controller, Color.Black);

@@ -34,16 +34,11 @@ namespace AddressableLed
 
             this._ws2811.dmanum = settings.DMAChannel;
             this._ws2811.freq = settings.Frequency;
-            this._ws2811.channel = new ws2811_channel_t[NativeMethods.RPI_PWM_CHANNELS];
+            this._ws2811.channel_0 = default(ws2811_channel_t);
+            this._ws2811.channel_1 = default(ws2811_channel_t);
 
-            for (var i = 0; i <= this._ws2811.channel.Length - 1; i++)
-            {
-                if (settings.Channels[i] != null)
-                {
-                    this.InitChannel(i, settings.Channels[i]);
-                }
-            }
-
+            this.InitChannel(this._ws2811.channel_0, settings.Channels[0]);
+            this.InitChannel(this._ws2811.channel_1, settings.Channels[1]);
             this.Settings = settings;
 
             var initResult = NativeMethods.ws2811_init(ref this._ws2811);
@@ -80,12 +75,29 @@ namespace AddressableLed
         /// </summary>
         public void Render()
         {
-            for (var i = 0; i <= this.Settings.Channels.Length - 1; i++)
+            for (var i = 0; i < this.Settings.Channels.Count; i++)
             {
+                var channel = default(ws2811_channel_t);
+                channel.leds = IntPtr.Zero;
                 if (this.Settings.Channels[i] != null)
                 {
-                    var ledColor = this.Settings.Channels[i].LEDs.Select(x => x.RGBValue).ToArray();
-                    Marshal.Copy(ledColor, 0, this._ws2811.channel[i].leds, ledColor.Count());
+                    switch (i)
+                    {
+                        case 0:
+                            channel = this._ws2811.channel_0;
+                            break;
+                        case 1:
+                            channel = this._ws2811.channel_1;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    if (channel.leds != IntPtr.Zero)
+                    {
+                        var ledColor = this.Settings.Channels[i].LEDs.Select(x => x.RGBValue).ToArray();
+                        Marshal.Copy(ledColor, 0, channel.leds, ledColor.Count());
+                    }
                 }
             }
 
@@ -137,20 +149,21 @@ namespace AddressableLed
         /// <summary>
         /// Initialize the channel properties.
         /// </summary>
-        /// <param name="channelIndex">Index of the channel to initialize.</param>
+        /// <param name="channel">Channel to initialize.</param>
         /// <param name="channelSettings">Settings for the channel.</param>
-        private void InitChannel(int channelIndex, Channel channelSettings)
+        private void InitChannel(ws2811_channel_t channel, Channel channelSettings)
         {
-            this._ws2811.channel[channelIndex].count = channelSettings.LEDs.Count;
-            this._ws2811.channel[channelIndex].gpionum = channelSettings.GPIOPin;
-            this._ws2811.channel[channelIndex].brightness = channelSettings.Brightness;
-            this._ws2811.channel[channelIndex].invert = Convert.ToInt32(channelSettings.Invert);
+            channel.leds = IntPtr.Zero;
+            channel.count = channelSettings.LEDs.Count;
+            channel.gpionum = channelSettings.GPIOPin;
+            channel.brightness = channelSettings.Brightness;
+            channel.invert = Convert.ToInt32(channelSettings.Invert);
 
             if (channelSettings.StripType != StripType.Unknown)
             {
                 // Strip type is set by the native assembly if not explicitly set.
                 // This type defines the ordering of the colors e. g. RGB or GRB, ...
-                this._ws2811.channel[channelIndex].strip_type = (int)channelSettings.StripType;
+                channel.strip_type = (int)channelSettings.StripType;
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using AddressableLed.Interop;
 
 namespace AddressableLed
@@ -17,15 +18,13 @@ namespace AddressableLed
         {
             this.Frequency = frequency;
             this.DMAChannel = dmaChannel;
-            this.Channels = new Channel[NativeMethods.RPI_PWM_CHANNELS];
+            this.Channels = new List<Channel>();
         }
 
         /// <summary>
         /// Gets the channels which holds the LEDs.
         /// </summary>
-        // TODO: Refactor this to be a list or collection if it won't impact interop.
-        [SuppressMessage("CA1819", "CA1819", Justification = "Need to refactor this if possible.")]
-        public Channel[] Channels { get; private set; }
+        public IList<Channel> Channels { get; private set; }
 
         /// <summary>
         /// Gets the DMA channel.
