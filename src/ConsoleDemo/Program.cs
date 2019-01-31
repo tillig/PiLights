@@ -41,6 +41,7 @@ namespace ConsoleDemo
                     new RainbowColorAnimation(controller),
                 };
 
+                /*
                 Console.WriteLine("Beginning test - press any key to exit.");
                 var tokenSource = new CancellationTokenSource();
                 var task = Task.Run(
@@ -61,6 +62,12 @@ namespace ConsoleDemo
                 Console.WriteLine("Finishing up.");
                 tokenSource.Cancel();
                 task.Wait();
+                */
+
+                // Simple for now - just wipe red, then clear the lights.
+                Console.WriteLine(animations[0].ToString());
+                animations[0].Execute(CancellationToken.None);
+
                 var off = new ColorWipe(controller, Color.Black);
                 off.Execute(CancellationToken.None);
                 Console.WriteLine("Done.");
