@@ -22,7 +22,7 @@ namespace AddressableLed
         {
         }
 
-        public void SetLEDColor(int channelIndex, int ledID, Color color)
+        public void SetLEDColor(int ledID, Color color)
         {
         }
 

@@ -5,8 +5,6 @@ namespace AddressableLed.Interop
 {
     internal static class NativeMethods
     {
-        public const int RPI_PWM_CHANNELS = 2;
-
         [DllImport("ws2811.so")]
         public static extern void ws2811_fini(ref ws2811_t ws2811);
 

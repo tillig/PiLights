@@ -16,8 +16,7 @@ namespace ConsoleDemo
             // AddressableLed is a fork/combo of...
             // https://github.com/rpi-ws281x/rpi-ws281x-csharp
             // https://github.com/chris579/rpi_ws281x.Net
-            var settings = new Settings();
-            settings.Channels.Add(new Channel(540, 18, 64, false, StripType.WS2811_STRIP_GRB));
+            var settings = new Settings(new Channel(540, 18, 64, false, StripType.WS2811_STRIP_GRB));
 
             // using (ILedController controller = new StubLedController(settings))
             // TODO: Currently getting error on construction of controller.

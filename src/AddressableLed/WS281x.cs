@@ -36,7 +36,7 @@ namespace AddressableLed
             this._ws2811.freq = settings.Frequency;
             this._ws2811.channel_0 = default(ws2811_channel_t);
 
-            this.InitChannel(this._ws2811.channel_0, settings.Channels[0]);
+            this.InitChannel(this._ws2811.channel_0, settings.ChannelSettings);
             this.Settings = settings;
 
             var initResult = NativeMethods.ws2811_init(ref this._ws2811);
@@ -73,11 +73,8 @@ namespace AddressableLed
         /// </summary>
         public void Render()
         {
-            for (var i = 0; i < this.Settings.Channels.Count; i++)
-            {
-                var ledColor = this.Settings.Channels[i].LEDs.Select(x => x.RGBValue).ToArray();
-                Marshal.Copy(ledColor, 0, this._ws2811.channel_0.leds, ledColor.Count());
-            }
+            var ledColor = this.Settings.ChannelSettings.LEDs.Select(x => x.RGBValue).ToArray();
+            Marshal.Copy(ledColor, 0, this._ws2811.channel_0.leds, ledColor.Length);
 
             var result = NativeMethods.ws2811_render(ref this._ws2811);
             if (result != ws2811_return_t.WS2811_SUCCESS)
@@ -90,12 +87,11 @@ namespace AddressableLed
         /// <summary>
         /// Sets the color of a given LED.
         /// </summary>
-        /// <param name="channelIndex">Channel which controls the LED.</param>
         /// <param name="ledID">ID/Index of the LED.</param>
         /// <param name="color">New color.</param>
-        public void SetLEDColor(int channelIndex, int ledID, Color color)
+        public void SetLEDColor(int ledID, Color color)
         {
-            this.Settings.Channels[channelIndex].LEDs[ledID].Color = color;
+            this.Settings.ChannelSettings.LEDs[ledID].Color = color;
         }
 
         protected virtual void Dispose(bool disposing)
@@ -131,7 +127,6 @@ namespace AddressableLed
         /// <param name="channelSettings">Settings for the channel.</param>
         private void InitChannel(ws2811_channel_t channel, Channel channelSettings)
         {
-            channel.leds = IntPtr.Zero;
             channel.count = channelSettings.LEDs.Count;
             channel.gpionum = channelSettings.GPIOPin;
             channel.brightness = channelSettings.Brightness;

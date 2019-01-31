@@ -12,19 +12,20 @@ namespace AddressableLed
         /// <summary>
         /// Initializes a new instance of the <see cref="Settings"/> class.
         /// </summary>
+        /// <param name="channelSettings">Detailed settings for the LED channel.</param>
         /// <param name="frequency">Set frequency in Hz.</param>
         /// <param name="dmaChannel">Set DMA channel to use.</param>
-        public Settings(uint frequency = 800000, int dmaChannel = 10)
+        public Settings(Channel channelSettings, uint frequency = 800000, int dmaChannel = 10)
         {
             this.Frequency = frequency;
             this.DMAChannel = dmaChannel;
-            this.Channels = new List<Channel>();
+            this.ChannelSettings = channelSettings;
         }
 
         /// <summary>
-        /// Gets the channels which holds the LEDs.
+        /// Gets the channel which holds the LEDs.
         /// </summary>
-        public IList<Channel> Channels { get; private set; }
+        public Channel ChannelSettings { get; private set; }
 
         /// <summary>
         /// Gets the DMA channel.
