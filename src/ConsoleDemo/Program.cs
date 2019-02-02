@@ -29,6 +29,11 @@ namespace ConsoleDemo
                     new RainbowColorAnimation(controller),
                 };
 
+                // TODO: Segmentation fault happens if you try to do this fancy demo.
+                // Working through it here https://github.com/rpi-ws281x/rpi-ws281x-powershell/issues/2
+                // The Console.WriteLine calls in WS281x looked like they were saving me
+                // but that appears to only work for the simple once-through run of the
+                // color wipe. When I try to do multiple things, fail.
                 /*
                 Console.WriteLine("Beginning test - press any key to exit.");
                 var tokenSource = new CancellationTokenSource();
