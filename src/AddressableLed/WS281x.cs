@@ -26,19 +26,29 @@ namespace AddressableLed
         /// <param name="settings">Settings used for initialization.</param>
         public WS281x(Settings settings)
         {
+            // TODO: Figure out why these Console.WriteLine messages make it work.
+            // I had them in the program, it worked, and before I committed the change
+            // indicating that things worked I took them out. After taking them out, things
+            // stopped working. I'm legitimately stumped. I'm curious if it has something
+            // to do with forcing the GC to allocate enough managed heap or something and
+            // now I'm just rambling because I have no idea why it only works with the writelines.
+            Console.WriteLine("Creating ws2811");
             this._ws2811 = default(ws2811_t);
 
             // Pin the object in memory. Otherwise GC will probably move the object to another memory location.
             // This would cause errors because the native library has a pointer on the memory location of the object.
+            Console.WriteLine("Pinning ws2811");
             this._ws2811Handle = GCHandle.Alloc(this._ws2811, GCHandleType.Pinned);
 
             this._ws2811.dmanum = settings.DMAChannel;
             this._ws2811.freq = settings.Frequency;
+            Console.WriteLine("Creating channel");
             this._ws2811.channel_1 = default(ws2811_channel_t);
 
             this.InitChannel(ref this._ws2811.channel_1, settings.ChannelSettings);
             this.Settings = settings;
 
+            Console.WriteLine("Initializing channel");
             var initResult = NativeMethods.ws2811_init(ref this._ws2811);
             if (initResult != ws2811_return_t.WS2811_SUCCESS)
             {
