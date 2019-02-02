@@ -34,9 +34,9 @@ namespace AddressableLed
 
             this._ws2811.dmanum = settings.DMAChannel;
             this._ws2811.freq = settings.Frequency;
-            this._ws2811.channel_0 = default(ws2811_channel_t);
+            this._ws2811.channel_1 = default(ws2811_channel_t);
 
-            this.InitChannel(this._ws2811.channel_0, settings.ChannelSettings);
+            this.InitChannel(ref this._ws2811.channel_1, settings.ChannelSettings);
             this.Settings = settings;
 
             var initResult = NativeMethods.ws2811_init(ref this._ws2811);
@@ -74,7 +74,7 @@ namespace AddressableLed
         public void Render()
         {
             var ledColor = this.Settings.ChannelSettings.LEDs.Select(x => x.RGBValue).ToArray();
-            Marshal.Copy(ledColor, 0, this._ws2811.channel_0.leds, ledColor.Length);
+            Marshal.Copy(ledColor, 0, this._ws2811.channel_1.leds, ledColor.Length);
 
             var result = NativeMethods.ws2811_render(ref this._ws2811);
             if (result != ws2811_return_t.WS2811_SUCCESS)
@@ -101,7 +101,10 @@ namespace AddressableLed
                 if (this._isDisposingAllowed)
                 {
                     NativeMethods.ws2811_fini(ref this._ws2811);
-                    this._ws2811Handle.Free();
+                    if (this._ws2811Handle.IsAllocated)
+                    {
+                        this._ws2811Handle.Free();
+                    }
 
                     this._isDisposingAllowed = false;
                 }
@@ -125,7 +128,7 @@ namespace AddressableLed
         /// </summary>
         /// <param name="channel">Channel to initialize.</param>
         /// <param name="channelSettings">Settings for the channel.</param>
-        private void InitChannel(ws2811_channel_t channel, Channel channelSettings)
+        private void InitChannel(ref ws2811_channel_t channel, Channel channelSettings)
         {
             channel.count = channelSettings.LEDs.Count;
             channel.gpionum = channelSettings.GPIOPin;

@@ -19,18 +19,6 @@ namespace ConsoleDemo
             var settings = new Settings(new Channel(540, 18, 64, false, StripType.WS2811_STRIP_GRB));
 
             // using (ILedController controller = new StubLedController(settings))
-            // TODO: Currently getting error on construction of controller.
-            /* Unhandled Exception: System.Exception: Error while initializing.
-            Error code: WS2811_ERROR_ILLEGAL_GPIO
-            Message: 敓敬瑣摥䜠䥐⁏潮⁴潰獳扩敬
-               at AddressableLed.WS281x..ctor(Settings settings) in C:\Users\tilli\Documents\Visual Studio 2017\Projects\PiLights\src\AddressableLed\WS281x.cs:line 46
-               at ConsoleDemo.Program.Main() in C:\Users\tilli\Documents\Visual Studio 2017\Projects\PiLights\src\ConsoleDemo\Program.cs:line 23
-            Aborted
-            */
-
-            // Guessing this has something to do with the way the channel is getting
-            // set up. Maybe need to simplify the controller. Considering
-            // trying the rpi_ws281x.Net library out of the box.
             using (ILedController controller = new WS281x(settings))
             {
                 var animations = new IAnimation[]
