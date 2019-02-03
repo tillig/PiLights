@@ -9,6 +9,6 @@ namespace AddressableLed
 
         void Render();
 
-        void SetLEDColor(int ledID, Color color);
+        void SetLightColor(int index, Color color);
     }
 }

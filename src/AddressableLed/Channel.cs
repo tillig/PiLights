@@ -5,20 +5,20 @@ namespace AddressableLed
 {
     public class Channel
     {
-        public Channel(int ledCount, int gpioPin, byte brightness, bool invert, StripType stripType)
+        public Channel(int ledCount, StripType stripType, int gpioPin = 18, byte brightness = 255, bool invert = false)
         {
-            this.GPIOPin = gpioPin;
+            this.GpioPin = gpioPin;
             this.Invert = invert;
             this.Brightness = brightness;
             this.StripType = stripType;
 
-            var ledList = new List<LED>();
+            var ledList = new List<Light>();
             for (var i = 0; i <= ledCount - 1; i++)
             {
-                ledList.Add(new LED(i));
+                ledList.Add(new Light());
             }
 
-            this.LEDs = new ReadOnlyCollection<LED>(ledList);
+            this.Lights = new ReadOnlyCollection<Light>(ledList);
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace AddressableLed
         /// <summary>
         /// Gets the GPIO pin to which the current strip/channel is connected.
         /// </summary>
-        public int GPIOPin { get; private set; }
+        public int GpioPin { get; private set; }
 
         /// <summary>
         /// Gets a value indicating whether the signal to the channel should be inverted.
@@ -43,19 +43,17 @@ namespace AddressableLed
         /// </value>
         public bool Invert { get; private set; }
 
-        public int LEDCount { get => this.LEDs.Count; }
-
         /// <summary>
         /// Gets all lights on this channel.
         /// </summary>
-        public ReadOnlyCollection<LED> LEDs { get; private set; }
+        public ReadOnlyCollection<Light> Lights { get; private set; }
 
         /// <summary>
         /// Gets the type of light on this channel.
         /// </summary>
         /// <value>
         /// A <see cref="AddressableLed.StripType"/> that indicates the
-        /// ordering of the colors associated with teh lights on this channel.
+        /// ordering of the colors associated with the lights on this channel.
         /// </value>
         public StripType StripType { get; private set; }
     }

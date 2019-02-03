@@ -29,10 +29,10 @@ namespace ConsoleDemo
         public void Execute(CancellationToken token)
         {
             var colorOffset = 0;
-            for (var i = 0; i <= this._controller.Settings.ChannelSettings.LEDCount - 1 && !token.IsCancellationRequested; i++)
+            for (var i = 0; i <= this._controller.Settings.Channel.Lights.Count - 1 && !token.IsCancellationRequested; i++)
             {
                 var colorIndex = (i + colorOffset) % _animationColors.Length;
-                this._controller.SetLEDColor(i, _animationColors[colorIndex]);
+                this._controller.SetLightColor(i, _animationColors[colorIndex]);
                 this._controller.Render();
 
                 if (colorOffset == int.MaxValue)

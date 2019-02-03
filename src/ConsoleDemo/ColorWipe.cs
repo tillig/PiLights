@@ -20,9 +20,9 @@ namespace ConsoleDemo
 
         public void Execute(CancellationToken token)
         {
-            for (var i = 0; i <= this._controller.Settings.ChannelSettings.LEDs.Count - 1 && !token.IsCancellationRequested; i++)
+            for (var i = 0; i <= this._controller.Settings.Channel.Lights.Count - 1 && !token.IsCancellationRequested; i++)
             {
-                this._controller.SetLEDColor(i, this._color);
+                this._controller.SetLightColor(i, this._color);
                 this._controller.Render();
                 Thread.Sleep(10);
             }

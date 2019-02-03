@@ -10,7 +10,7 @@ namespace AddressableLed
     /// <summary>
     /// Wrapper class to control WS281x LEDs.
     /// </summary>
-    public class WS281x : ILedController
+    public class Ws281xController : ILedController
     {
         private bool _isDisposingAllowed;
 
@@ -21,10 +21,10 @@ namespace AddressableLed
         private bool disposedValue = false;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WS281x"/> class.
+        /// Initializes a new instance of the <see cref="Ws281xController"/> class.
         /// </summary>
         /// <param name="settings">Settings used for initialization.</param>
-        public WS281x(Settings settings)
+        public Ws281xController(Settings settings)
         {
             // TODO: Figure out why these Console.WriteLine messages make it work.
             // I had them in the program, it worked, and before I committed the change
@@ -40,12 +40,12 @@ namespace AddressableLed
             Console.WriteLine("Pinning ws2811");
             this._ws2811Handle = GCHandle.Alloc(this._ws2811, GCHandleType.Pinned);
 
-            this._ws2811.dmanum = settings.DMAChannel;
+            this._ws2811.dmanum = settings.DmaChannel;
             this._ws2811.freq = settings.Frequency;
             Console.WriteLine("Creating channel");
             this._ws2811.channel_1 = default(ws2811_channel_t);
 
-            this.InitChannel(ref this._ws2811.channel_1, settings.ChannelSettings);
+            this.InitChannel(ref this._ws2811.channel_1, settings.Channel);
             this.Settings = settings;
 
             Console.WriteLine("Initializing channel");
@@ -61,7 +61,7 @@ namespace AddressableLed
             this._isDisposingAllowed = true;
         }
 
-        ~WS281x()
+        ~Ws281xController()
         {
             // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             this.Dispose(false);
@@ -83,7 +83,7 @@ namespace AddressableLed
         /// </summary>
         public void Render()
         {
-            var ledColor = this.Settings.ChannelSettings.LEDs.Select(x => x.RGBValue).ToArray();
+            var ledColor = this.Settings.Channel.Lights.Select(x => x.RgbValue).ToArray();
             Marshal.Copy(ledColor, 0, this._ws2811.channel_1.leds, ledColor.Length);
 
             var result = NativeMethods.ws2811_render(ref this._ws2811);
@@ -97,11 +97,11 @@ namespace AddressableLed
         /// <summary>
         /// Sets the color of a given LED.
         /// </summary>
-        /// <param name="ledID">ID/Index of the LED.</param>
+        /// <param name="index">Index of the LED.</param>
         /// <param name="color">New color.</param>
-        public void SetLEDColor(int ledID, Color color)
+        public void SetLightColor(int index, Color color)
         {
-            this.Settings.ChannelSettings.LEDs[ledID].Color = color;
+            this.Settings.Channel.Lights[index].Color = color;
         }
 
         protected virtual void Dispose(bool disposing)
@@ -140,8 +140,8 @@ namespace AddressableLed
         /// <param name="channelSettings">Settings for the channel.</param>
         private void InitChannel(ref ws2811_channel_t channel, Channel channelSettings)
         {
-            channel.count = channelSettings.LEDs.Count;
-            channel.gpionum = channelSettings.GPIOPin;
+            channel.count = channelSettings.Lights.Count;
+            channel.gpionum = channelSettings.GpioPin;
             channel.brightness = channelSettings.Brightness;
             channel.invert = Convert.ToInt32(channelSettings.Invert);
 
