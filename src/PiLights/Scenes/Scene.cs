@@ -60,7 +60,7 @@ thread_stop
             var trimmed = string.Join(';', combined
                 .Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(x => x.Trim())
-                .Where(x => !string.IsNullOrEmpty(x))) + ";";
+                .Where(x => !string.IsNullOrEmpty(x))) + ";\n";
 
             return trimmed;
         }
