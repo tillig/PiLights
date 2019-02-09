@@ -7,30 +7,37 @@ using System.Reflection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 using PiLights.Models;
 using PiLights.Scenes;
+using PiLights.Services;
 
 namespace PiLights.Controllers
 {
     public class HomeController : Controller
     {
         private const string ErrorMessage = "Failed to start the scene. Please try again later.";
+
         private const string SuccessMessage = "Successfully started the scene.";
-        private readonly Lazy<IList<Scene>> scenes = new Lazy<IList<Scene>>(() => GetScenes());
+
+        public HomeController(SceneManager sceneManager)
+        {
+            this.SceneManager = sceneManager;
+        }
+
+        public SceneManager SceneManager { get; private set; }
 
         [HttpGet]
         public IActionResult Index()
         {
-            this.ViewBag.Scenes = this.scenes.Value.Select(x => new SelectListItem { Text = x.GetDisplayName(), Value = x.GetType().FullName });
+            this.ViewBag.Scenes = this.SceneManager.Scenes.Select(x => new SelectListItem { Text = x.GetDisplayName(), Value = x.GetType().FullName });
             return this.View();
         }
 
         [HttpPost]
         public IActionResult SceneProperties(string sceneName)
         {
-            var scene = (Scene)Activator.CreateInstance(Type.GetType(sceneName));
+            var scene = this.SceneManager.Scenes.First(x => x.GetType().FullName == sceneName);
             var sceneProperties = scene.GetSceneProperties();
             return this.PartialView(scene);
         }
@@ -40,7 +47,7 @@ namespace PiLights.Controllers
         {
             // TODO: Separate scene properties from scene execution - use property object as model.
             // TODO: Update to use model binding instead of manual parsing.
-            var scene = (Scene)Activator.CreateInstance(Type.GetType(sceneName));
+            var scene = this.SceneManager.Scenes.First(x => x.GetType().FullName == sceneName);
             var sceneProps = scene.GetSceneProperties();
             var properties = new Dictionary<string, string>();
             foreach (var prop in sceneProps)
@@ -62,26 +69,7 @@ namespace PiLights.Controllers
             }
 
             this.SetAlert(scene.Execute());
-            return this.RedirectToAction("Index");
-        }
-
-        private static IList<Scene> GetScenes()
-        {
-            var all = Assembly
-                .GetEntryAssembly()
-                .GetTypes()
-                .Where(type => typeof(Scene).GetTypeInfo().IsAssignableFrom(type));
-
-            var scenes = new List<Scene>();
-            foreach (var t in all)
-            {
-                if (!t.Equals(typeof(Scene)))
-                {
-                    scenes.Add((Scene)Activator.CreateInstance(t));
-                }
-            }
-
-            return scenes;
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         private void SetAlert(bool success)
