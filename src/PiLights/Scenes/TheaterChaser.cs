@@ -14,7 +14,7 @@ namespace PiLights.Scenes
 render
 do
   delay {{chaseSpeed}}
-  rotate
+  rotate 1, 1, {{direction}}
   render
 loop";
 
@@ -31,6 +31,9 @@ loop";
         [DisplayName("Chase Speed")]
         [Max(1000)]
         public int ChaseSpeed { get; set; }
+
+        [DisplayName("Reverse Direction")]
+        public bool Reverse { get; set; }
 
         [DisplayName(nameof(Color))]
         [TypeConverter(typeof(HexColorConverter))]
@@ -52,6 +55,7 @@ loop";
             {
                 color = this.Color,
                 chaseSpeed = this.ChaseSpeed,
+                direction = this.Reverse ? 0 : 1,
                 chasers,
             };
 

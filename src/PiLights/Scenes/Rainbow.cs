@@ -11,7 +11,7 @@ namespace PiLights.Scenes
 render{{# if chaseSpeed }}
 do
   delay {{chaseSpeed}}
-  rotate
+  rotate 1, 1, {{direction}}
   render
 loop{{/if}}";
 
@@ -21,11 +21,15 @@ loop{{/if}}";
         [Max(1000)]
         public int ChaseSpeed { get; set; }
 
+        [DisplayName("Reverse Direction")]
+        public bool Reverse { get; set; }
+
         public override string GetSceneImplementation()
         {
             var data = new
             {
                 chaseSpeed = this.ChaseSpeed,
+                direction = this.Reverse ? 0 : 1,
             };
 
             var generated = CompiledTemplate(data);
