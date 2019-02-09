@@ -44,6 +44,10 @@ namespace PiLights
                 try
                 {
                     socket.Connect(endpoint);
+
+                    // This sleep is required to make things consistently work.
+                    // https://github.com/tom-2015/rpi-ws2812-server/issues/25
+                    Thread.Sleep(500);
                     socket.Send(msg, 0, msg.Length, SocketFlags.None);
                     socket.Shutdown(SocketShutdown.Both);
                     socket.Close();
