@@ -55,7 +55,8 @@ namespace PiLights
             builder.RegisterType<SceneManager>();
             builder
                 .RegisterAssemblyTypes(typeof(Startup).Assembly)
-                .Where(t => typeof(Scene).IsAssignableFrom(t));
+                .Where(t => typeof(Scene).IsAssignableFrom(t))
+                .As<Scene>();
         }
 
         [SuppressMessage("CA1812", "CA1812", Justification = "Startup requires instance methods.")]
