@@ -38,6 +38,8 @@ namespace PiLights.Controllers
         [HttpPost]
         public IActionResult StartScene(string sceneName)
         {
+            // TODO: Separate scene properties from scene execution - use property object as model.
+            // TODO: Update to use model binding instead of manual parsing.
             var scene = (Scene)Activator.CreateInstance(Type.GetType(sceneName));
             var sceneProps = scene.GetSceneProperties();
             var properties = new Dictionary<string, string>();
