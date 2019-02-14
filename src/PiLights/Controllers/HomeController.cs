@@ -42,7 +42,7 @@ namespace PiLights.Controllers
         [HttpPost]
         public async Task<IActionResult> StartScene(string sceneName)
         {
-            // TODO: Custom model binder for color - trim off the #
+            // TODO: Custom model binder for color - trim off the #: https://docs.microsoft.com/en-us/aspnet/core/mvc/advanced/custom-model-binding?view=aspnetcore-2.2
             // TODO: Bootstrap 4 editor templates for all controls: https://getbootstrap.com/docs/4.3/components/forms/
             // TODO: Separate scene properties from scene execution - use property object as model.
             var scene = this.SceneManager.Scenes.First(x => x.GetType().FullName == sceneName);
