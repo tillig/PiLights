@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Globalization;
 using System.Linq;
-using System.Reflection;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -43,29 +40,24 @@ namespace PiLights.Controllers
         }
 
         [HttpPost]
-        public IActionResult StartScene(string sceneName)
+        public async Task<IActionResult> StartScene(string sceneName)
         {
+            // TODO: Custom model binder for color - trim off the #
+            // TODO: Bootstrap 4 editor templates for all controls: https://getbootstrap.com/docs/4.3/components/forms/
             // TODO: Separate scene properties from scene execution - use property object as model.
-            // TODO: Update to use model binding instead of manual parsing.
             var scene = this.SceneManager.Scenes.First(x => x.GetType().FullName == sceneName);
-            var sceneProps = scene.GetSceneProperties();
-            var properties = new Dictionary<string, string>();
-            foreach (var prop in sceneProps)
+            if (!await this.TryUpdateModelAsync(scene, scene.GetType(), string.Empty))
             {
-                this.Request.Form.TryGetValue(prop.Name, out var propValue);
-                object value = null;
-                var typeConverter = prop.GetCustomAttribute<TypeConverterAttribute>();
-                if (typeConverter == null)
-                {
-                    value = Convert.ChangeType(propValue[0], prop.PropertyType, CultureInfo.InvariantCulture);
-                }
-                else
-                {
-                    var converterInstance = (TypeConverter)Activator.CreateInstance(Type.GetType(typeConverter.ConverterTypeName));
-                    value = converterInstance.ConvertTo(propValue[0], prop.PropertyType);
-                }
+                this.ModelState.AddModelError(string.Empty, "Unable to bind properties to model.");
+            }
+            else if (!this.TryValidateModel(scene))
+            {
+                this.ModelState.AddModelError(string.Empty, "Unable to validate model.");
+            }
 
-                prop.SetValue(scene, value, null);
+            if (!this.ModelState.IsValid)
+            {
+                return this.PartialView(scene);
             }
 
             this.SetAlert(scene.Execute());
