@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using HandlebarsDotNet;
 using PiLights.Services;
@@ -25,6 +26,7 @@ loop";
         public int BreathSpeed { get; set; }
 
         [DisplayName(nameof(Color))]
+        [DataType(nameof(Color))]
         [TypeConverter(typeof(HexColorConverter))]
         public string Color { get; set; }
 

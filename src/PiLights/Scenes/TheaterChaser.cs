@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using HandlebarsDotNet;
 using PiLights.Services;
@@ -32,12 +33,13 @@ loop";
         [Max(1000)]
         public int ChaseSpeed { get; set; }
 
-        [DisplayName("Reverse Direction")]
-        public bool Reverse { get; set; }
-
         [DisplayName(nameof(Color))]
+        [DataType(nameof(Color))]
         [TypeConverter(typeof(HexColorConverter))]
         public string Color { get; set; }
+
+        [DisplayName("Reverse Direction")]
+        public bool Reverse { get; set; }
 
         public override string GetSceneImplementation()
         {
