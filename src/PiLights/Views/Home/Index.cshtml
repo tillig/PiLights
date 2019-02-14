@@ -8,14 +8,10 @@
         <fieldset class="panel">
             <alerts></alerts>
             <div class="form-group">
-                <label>
-                    <span class="label">Scene</span>
-                    <span>
-                        <select id="sceneName" name="sceneName" asp-items="this.ViewBag.Scenes" class="control" autocomplete="off" autofocus="autofocus">
-                            <option disabled selected>--- SELECT ---</option>
-                        </select>
-                    </span>
-                </label>
+                <label for="sceneName">Scene</label>
+                <select id="sceneName" name="sceneName" asp-items="this.ViewBag.Scenes" class="form-control" autocomplete="off" autofocus="autofocus">
+                    <option disabled selected>--- SELECT ---</option>
+                </select>
             </div>
             <div id="sceneProperties" style="display:none;"></div>
         </fieldset>
