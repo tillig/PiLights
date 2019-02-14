@@ -3,6 +3,8 @@
     <Rules AnalyzerId="Microsoft.Usage" RuleNamespace="Microsoft.Usage">
         <!-- No underscores in methods - unit tests use underscores -->
         <Rule Id="CA1707" Action="None" />
+        <!-- Always use ConfigureAwait - we don't because we want the call context propagated -->
+        <Rule Id="CA2007" Action="None" />
     </Rules>
     <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
         <!-- Fields can't start with underscore -->
