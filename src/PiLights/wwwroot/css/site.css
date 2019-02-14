@@ -125,13 +125,6 @@ control.-inline {
     margin-bottom: 0.875rem;
 }
 
-.label {
-    color: #666666;
-    display: block;
-    font-weight: 600;
-    margin-bottom: 0.375rem;
-}
-
 .link {
     color: #666666;
     font-size: 0.875rem;
@@ -154,7 +147,6 @@ control.-inline {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    font-size: 0.75rem;
     padding: 1.875rem 1.25rem;
     width: 100%;
 }
