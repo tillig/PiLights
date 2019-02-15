@@ -2,21 +2,25 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="content-area__content">
-    <h1 class="section-title">Pi Lights</h1>
-    <form id="scene" asp-controller="home" asp-action="StartScene" method="post">
-        <fieldset class="panel">
-            <alerts></alerts>
-            <div class="form-group">
-                <label for="sceneName">Scene</label>
-                <select id="sceneName" name="sceneName" asp-items="this.ViewBag.Scenes" class="form-control" autocomplete="off" autofocus="autofocus">
-                    <option disabled selected>--- SELECT ---</option>
-                </select>
-            </div>
-            <div id="sceneProperties" style="display:none;"></div>
-        </fieldset>
-    </form>
-</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <h1>Scene Settings</h1>
+            <form id="scene" asp-controller="home" asp-action="StartScene" method="post">
+                <fieldset class="panel border rounded">
+                    <alerts></alerts>
+                    <div class="form-group">
+                        <label for="sceneName">Scene</label>
+                        <select id="sceneName" name="sceneName" asp-items="this.ViewBag.Scenes" class="form-control" autocomplete="off" autofocus="autofocus">
+                            <option disabled selected>--- SELECT ---</option>
+                        </select>
+                    </div>
+                    <div id="sceneProperties" style="display:none;"></div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+ </div>
 
 @section scripts
 {

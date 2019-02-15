@@ -4,58 +4,18 @@
     ViewData["Title"] = "Configuration";
 }
 
-<div class="content-area__content">
-    <h1 class="section-title">Configuration Settings</h1>
-    <form asp-controller="configuration" asp-action="Index" method="post">
-        <fieldset class="panel">
-            <div class="form-group">
-                <label>
-                    <span class="label">Server IP</span>
-                    <span>
-                        <input asp-for="ServerIP" class="control" autocomplete="off" autofocus="autofocus" />
-                    </span>
-                </label>
-                <span asp-validation-for="ServerIP" class="field-validation-valid"></span>
-            </div>
-            <div class="form-group">
-                <label>
-                    <span class="label">Server Port</span>
-                    <span>
-                        <input asp-for="ServerPort" class="control" autocomplete="off" autofocus="autofocus" />
-                    </span>
-                </label>
-                <span asp-validation-for="ServerPort" class="field-validation-valid"></span>
-            </div>
-            <div class="form-group">
-                <label>
-                    <span class="label">LED Count</span>
-                    <span>
-                        <input asp-for="LedCount" class="control" autocomplete="off" autofocus="autofocus" />
-                    </span>
-                </label>
-                <span asp-validation-for="LedCount" class="field-validation-valid"></span>
-            </div>
-            <div class="form-group">
-                <label>
-                    <span class="label">LED Type</span>
-                    <span>
-                        <select asp-for="LedType" asp-items="Html.GetEnumSelectList<LedType>()" class="control" autocomplete="off" autofocus="autofocus"></select>
-                    </span>
-                </label>
-                <span asp-validation-for="LedType" class="field-validation-valid"></span>
-            </div>
-            <div class="form-group">
-                <label>
-                    <span class="label">Default Brightness</span>
-                    <span>
-                        <input asp-for="GlobalBrightness" class="control" autocomplete="off" autofocus="autofocus" />
-                    </span>
-                </label>
-                <span asp-validation-for="GlobalBrightness" class="field-validation-valid"></span>
-            </div>
-            <div class="form-actions">
-                <input type="submit" data-clear-alerts="true" class="button" value="save" />
-            </div>
-        </fieldset>
-    </form>
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <h1>Global Configuration Settings</h1>
+            <form asp-controller="configuration" asp-action="Index" method="post">
+                <fieldset class="panel">
+                    @Html.EditorForModel()
+                    <div class="form-group">
+                        <button type="submit" name="save" id="save" data-clear-alerts="true" class="btn btn-primary">Save</button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
 </div>
