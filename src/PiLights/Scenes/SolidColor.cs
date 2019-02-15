@@ -16,6 +16,7 @@ render";
         [DisplayName(nameof(Color))]
         [DataType(nameof(Color))]
         [TypeConverter(typeof(HexColorConverter))]
+        [Required]
         public string Color { get; set; }
 
         public override string GetSceneImplementation()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using HandlebarsDotNet;
 
 namespace PiLights.Scenes
@@ -18,18 +19,18 @@ loop{{/if}}";
         private static readonly Func<object, string> CompiledTemplate = Handlebars.Compile(Template);
 
         [DisplayName("Chase Speed (0 for no chase)")]
-        [Max(1000)]
+        [Range(0, 1000)]
         public int ChaseSpeed { get; set; }
 
         [DisplayName("Reverse Direction")]
-        public bool Reverse { get; set; }
+        public bool? Reverse { get; set; }
 
         public override string GetSceneImplementation()
         {
             var data = new
             {
                 chaseSpeed = this.ChaseSpeed,
-                direction = this.Reverse ? 0 : 1,
+                direction = this.Reverse.HasValue && this.Reverse.Value ? 0 : 1,
             };
 
             var generated = CompiledTemplate(data);

@@ -22,7 +22,7 @@ loop";
         private static readonly Func<object, string> CompiledTemplate = Handlebars.Compile(Template);
 
         [DisplayName("Breath Speed")]
-        [Max(1000)]
+        [Range(1, 1000)]
         public int BreathSpeed { get; set; }
 
         [DisplayName(nameof(Color))]

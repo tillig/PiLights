@@ -26,20 +26,21 @@ loop";
         // with 17 chasers doesn't. Depending on how the template works, I was able
         // to actually crash the ws2812svr process and hang the whole RPi.
         [DisplayName("Chase Quantity")]
-        [Max(1000)]
+        [Range(1, 1000)]
         public int ChaseQuantity { get; set; }
 
         [DisplayName("Chase Speed")]
-        [Max(1000)]
+        [Range(1, 1000)]
         public int ChaseSpeed { get; set; }
 
         [DisplayName(nameof(Color))]
         [DataType(nameof(Color))]
         [TypeConverter(typeof(HexColorConverter))]
+        [Required]
         public string Color { get; set; }
 
         [DisplayName("Reverse Direction")]
-        public bool Reverse { get; set; }
+        public bool? Reverse { get; set; }
 
         public override string GetSceneImplementation()
         {
@@ -57,7 +58,7 @@ loop";
             {
                 color = this.Color,
                 chaseSpeed = this.ChaseSpeed,
-                direction = this.Reverse ? 0 : 1,
+                direction = this.Reverse.HasValue && this.Reverse.Value ? 0 : 1,
                 chasers,
             };
 
