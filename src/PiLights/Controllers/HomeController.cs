@@ -43,7 +43,6 @@ namespace PiLights.Controllers
         public async Task<IActionResult> StartScene(string sceneName)
         {
             // TODO: Adjust alerts to be toast popup that auto-disappears.
-            // TODO: Custom model binder for color - trim off the #: https://docs.microsoft.com/en-us/aspnet/core/mvc/advanced/custom-model-binding?view=aspnetcore-2.2
             // TODO: Separate scene properties from scene execution - use property object as model.
             var scene = this.SceneManager.Scenes.First(x => x.GetType().FullName == sceneName);
             if (!await this.TryUpdateModelAsync(scene, scene.GetType(), string.Empty))

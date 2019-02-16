@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace PiLights.Views.Shared.EditorTemplates
+namespace PiLights.Services
 {
     /// <summary>
     /// Default object editor template forked from https://github.com/aspnet/AspNetCore/blob/c565386a3ed135560bc2e9017aa54a950b4e35dd/src/Mvc/Mvc.ViewFeatures/src/DefaultEditorTemplates.cs

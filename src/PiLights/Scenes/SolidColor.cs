@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using PiLights.Services;
 
 namespace PiLights.Scenes
@@ -15,7 +16,7 @@ render";
 
         [DisplayName(nameof(Color))]
         [DataType(nameof(Color))]
-        [TypeConverter(typeof(HexColorConverter))]
+        [ModelBinder(BinderType = typeof(ColorModelBinder))]
         [Required]
         public string Color { get; set; }
 

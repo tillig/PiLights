@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using HandlebarsDotNet;
+using Microsoft.AspNetCore.Mvc;
 using PiLights.Services;
 
 namespace PiLights.Scenes
@@ -27,7 +28,7 @@ loop";
 
         [DisplayName(nameof(Color))]
         [DataType(nameof(Color))]
-        [TypeConverter(typeof(HexColorConverter))]
+        [ModelBinder(BinderType = typeof(ColorModelBinder))]
         public string Color { get; set; }
 
         public override string GetSceneImplementation()
