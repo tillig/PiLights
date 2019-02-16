@@ -54,7 +54,6 @@ namespace PiLights
         [SuppressMessage("CA1812", "CA1812", Justification = "Startup requires instance methods.")]
         public static void ConfigureContainer(ContainerBuilder builder)
         {
-            builder.RegisterType<SceneManager>();
             builder
                 .RegisterAssemblyTypes(typeof(Startup).Assembly)
                 .Where(t => typeof(Scene).IsAssignableFrom(t))
