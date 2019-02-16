@@ -9,11 +9,11 @@ using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PiLights.Scenes;
-using PiLights.Services;
 using PiLights.Validation;
 
 namespace PiLights
 {
+    // TODO: Set default values for all scenes.
     public class Startup
     {
         public Startup(IConfiguration configuration)
