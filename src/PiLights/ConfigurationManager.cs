@@ -8,6 +8,8 @@ using PiLights.Models;
 
 namespace PiLights
 {
+    // TODO: Make global configuration use IConfiguration.
+    // TODO: Persist JSON settings by environment.
     public static class ConfigurationManager
     {
         /// <summary>
