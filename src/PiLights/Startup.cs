@@ -14,6 +14,7 @@ using PiLights.Validation;
 namespace PiLights
 {
     // TODO: Set default values for all scenes.
+    // TODO: Add a power off button that calls Linux.Shutdown()
     public class Startup
     {
         public Startup(IConfiguration configuration)
