@@ -22,6 +22,8 @@ loop{{/if}}";
         public Rainbow(GlobalConfigurationSettings settings)
             : base(settings)
         {
+            this.ChaseSpeed = 20;
+            this.Reverse = false;
         }
 
         [DisplayName("Chase Speed (0 for no chase)")]

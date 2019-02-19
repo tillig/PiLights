@@ -1,11 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Drawing;
 using System.Globalization;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc;
 using PiLights.Configuration;
-using PiLights.Services;
 
 namespace PiLights.Scenes
 {
@@ -18,17 +17,16 @@ render";
         public SolidColor(GlobalConfigurationSettings settings)
             : base(settings)
         {
+            this.Color = Color.White;
         }
 
         [DisplayName(nameof(Color))]
-        [DataType(nameof(Color))]
-        [ModelBinder(BinderType = typeof(ColorModelBinder))]
         [Required]
-        public string Color { get; set; }
+        public Color Color { get; set; }
 
         public override string GetSceneImplementation()
         {
-            return string.Format(CultureInfo.InvariantCulture, this.template, this.Color);
+            return string.Format(CultureInfo.InvariantCulture, this.template, this.Color.ToLedColor());
         }
     }
 }

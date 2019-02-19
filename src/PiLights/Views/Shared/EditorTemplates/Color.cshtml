@@ -1,3 +1,4 @@
-﻿@model System.Drawing.Color
+﻿@using PiLights.Scenes
+@model System.Drawing.Color
 
-@Html.TextBox("", this.Model, new { type = "color", @class="form-control" })
+@Html.TextBox("", this.Model.ToHexColor(), new { type = "color", @class="form-control" })

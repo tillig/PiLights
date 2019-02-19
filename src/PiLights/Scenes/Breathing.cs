@@ -1,11 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Drawing;
 using System.Linq;
 using HandlebarsDotNet;
-using Microsoft.AspNetCore.Mvc;
 using PiLights.Configuration;
-using PiLights.Services;
 
 namespace PiLights.Scenes
 {
@@ -26,6 +25,8 @@ loop";
         public Breathing(GlobalConfigurationSettings settings)
             : base(settings)
         {
+            this.BreathSpeed = 20;
+            this.Color = Color.Red;
         }
 
         [DisplayName("Breath Speed")]
@@ -33,15 +34,14 @@ loop";
         public int BreathSpeed { get; set; }
 
         [DisplayName(nameof(Color))]
-        [DataType(nameof(Color))]
-        [ModelBinder(BinderType = typeof(ColorModelBinder))]
-        public string Color { get; set; }
+        [Required]
+        public Color Color { get; set; }
 
         public override string GetSceneImplementation()
         {
             var data = new
             {
-                color = this.Color,
+                color = this.Color.ToLedColor(),
                 breathSpeed = this.BreathSpeed,
                 defaultBrightness = this.Settings.GlobalBrightness,
             };

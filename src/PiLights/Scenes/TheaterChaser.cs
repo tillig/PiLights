@@ -1,11 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Drawing;
 using System.Linq;
 using HandlebarsDotNet;
-using Microsoft.AspNetCore.Mvc;
 using PiLights.Configuration;
-using PiLights.Services;
 
 namespace PiLights.Scenes
 {
@@ -26,6 +25,10 @@ loop";
         public TheaterChaser(GlobalConfigurationSettings settings)
             : base(settings)
         {
+            this.Color = Color.White;
+            this.ChaseQuantity = settings.LedCount / 20;
+            this.ChaseSpeed = 20;
+            this.Reverse = false;
         }
 
         // Ideally there'd be a way to limit this to something that's evenly
@@ -41,10 +44,8 @@ loop";
         public int ChaseSpeed { get; set; }
 
         [DisplayName(nameof(Color))]
-        [DataType(nameof(Color))]
-        [ModelBinder(BinderType = typeof(ColorModelBinder))]
         [Required]
-        public string Color { get; set; }
+        public Color Color { get; set; }
 
         [DisplayName("Reverse Direction")]
         public bool? Reverse { get; set; }
@@ -63,7 +64,7 @@ loop";
 
             var data = new
             {
-                color = this.Color,
+                color = this.Color.ToLedColor(),
                 chaseSpeed = this.ChaseSpeed,
                 direction = this.Reverse.HasValue && this.Reverse.Value ? 0 : 1,
                 chasers,
