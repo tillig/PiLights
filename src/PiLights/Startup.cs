@@ -14,7 +14,6 @@ using PiLights.Validation;
 
 namespace PiLights
 {
-    // TODO: Add a power off button that calls Linux.Shutdown()
     public class Startup
     {
         public Startup(IHostingEnvironment environment, IConfiguration configuration)

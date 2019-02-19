@@ -1,0 +1,38 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Pi Lights Shutdown</title>
+    <partial name="_Stylesheets" />
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/cover.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/css/cover.min.css" asp-append-version="true" />
+    </environment>
+</head>
+<body class="text-center">
+    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+        <header class="masthead mb-auto">
+            <div class="inner">
+                <h3 class="masthead-brand">Pi Lights</h3>
+            </div>
+        </header>
+        <main role="main" class="inner cover">
+            <h1 class="cover-heading">Shutdown Complete</h1>
+            <p class="lead">The shutdown command has been issued. The Raspberry Pi should be shut down in a couple of seconds.</p>
+        </main>
+        <footer class="mastfoot mt-auto">
+            <div class="inner">
+                <p>You'll need to reboot the Raspberry Pi if you want to play more with the lights.</p>
+            </div>
+        </footer>
+    </div>
+    <partial name="_Scripts" />
+</body>
+</html>

@@ -1,5 +1,11 @@
 [
   {
+    "outputFileName": "wwwroot/css/cover.min.css",
+    "inputFiles": [
+      "wwwroot/css/cover.css"
+    ]
+  },
+  {
     "outputFileName": "wwwroot/css/site.min.css",
     "inputFiles": [
       "wwwroot/css/site.css"
