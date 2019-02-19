@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using PiLights.Configuration;
 using PiLights.Services;
 
 namespace PiLights.Scenes
@@ -13,6 +14,11 @@ namespace PiLights.Scenes
     {
         private readonly string template = @"fill 1,{0}
 render";
+
+        public SolidColor(GlobalConfigurationSettings settings)
+            : base(settings)
+        {
+        }
 
         [DisplayName(nameof(Color))]
         [DataType(nameof(Color))]

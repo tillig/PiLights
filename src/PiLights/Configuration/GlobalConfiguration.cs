@@ -32,10 +32,12 @@ namespace PiLights.Configuration
         public static GlobalConfiguration Load(IHostingEnvironment environment)
         {
             var baseConfig = new ConfigurationBuilder()
-                .AddJsonFile($"{SettingsFileBaseName}.json", true, true)
+                .SetBasePath(environment.ContentRootPath)
+                .AddJsonFile($"{SettingsFileBaseName}.json", false, true)
                 .Build();
             var mergedConfig = new ConfigurationBuilder()
-                .AddJsonFile($"{SettingsFileBaseName}.json", true, true)
+                .SetBasePath(environment.ContentRootPath)
+                .AddJsonFile($"{SettingsFileBaseName}.json", false, true)
                 .AddJsonFile($"{SettingsFileBaseName}.{environment.EnvironmentName}.json", true, true)
                 .Build();
 

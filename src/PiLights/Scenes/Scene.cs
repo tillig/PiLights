@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using PiLights.Configuration;
 
 namespace PiLights.Scenes
 {
@@ -14,19 +15,24 @@ thread_start
 thread_stop
 ";
 
+        protected Scene(GlobalConfigurationSettings settings)
+        {
+            this.Settings = settings ?? throw new ArgumentNullException(nameof(settings));
+        }
+
+        public GlobalConfigurationSettings Settings { get; private set; }
+
         public virtual bool Execute()
         {
             var script = this.GenerateScript();
-            var result = ConfigurationManager.SendDataToSocket(script);
+            var result = this.Settings.SendDataToSocket(script);
             if (result)
             {
-                ConfigurationManager.WriteLastKnownScene(script);
+                LastKnownScene.WriteLastKnownScene(script);
             }
 
             return result;
         }
-
-        public abstract string GetSceneImplementation();
 
         public string GenerateScript()
         {
@@ -43,9 +49,9 @@ thread_stop
             var combined = string.Format(
                 CultureInfo.InvariantCulture,
                 Wrapper,
-                ConfigurationManager.Configuration.LedCount,
-                (int)ConfigurationManager.Configuration.LedType,
-                ConfigurationManager.Configuration.GlobalBrightness,
+                this.Settings.LedCount,
+                (int)this.Settings.LedType,
+                this.Settings.GlobalBrightness,
                 this.GetSceneImplementation());
 
             var trimmed = string.Join(';', combined
@@ -55,5 +61,7 @@ thread_stop
 
             return trimmed;
         }
+
+        public abstract string GetSceneImplementation();
     }
 }

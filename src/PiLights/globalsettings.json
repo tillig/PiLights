@@ -1,0 +1,6 @@
+{
+  "globalBrightness": 64,
+  "ledCount": 540,
+  "ledType": "WS2811_STRIP_GBR",
+  "serverPort": 9999
+}

@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using HandlebarsDotNet;
+using PiLights.Configuration;
 
 namespace PiLights.Scenes
 {
@@ -17,6 +18,11 @@ do
 loop{{/if}}";
 
         private static readonly Func<object, string> CompiledTemplate = Handlebars.Compile(Template);
+
+        public Rainbow(GlobalConfigurationSettings settings)
+            : base(settings)
+        {
+        }
 
         [DisplayName("Chase Speed (0 for no chase)")]
         [Range(0, 1000)]

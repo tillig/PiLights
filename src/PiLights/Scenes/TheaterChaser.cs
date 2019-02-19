@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using HandlebarsDotNet;
 using Microsoft.AspNetCore.Mvc;
+using PiLights.Configuration;
 using PiLights.Services;
 
 namespace PiLights.Scenes
@@ -21,6 +22,11 @@ do
 loop";
 
         private static readonly Func<object, string> CompiledTemplate = Handlebars.Compile(Template);
+
+        public TheaterChaser(GlobalConfigurationSettings settings)
+            : base(settings)
+        {
+        }
 
         // Ideally there'd be a way to limit this to something that's evenly
         // divisible into the LED quantity. 600 LEDs, 20 chasers works; 600 LEDs
@@ -47,11 +53,11 @@ loop";
         {
             // This is how much space should be between each chaser.
             // 600 LEDs, 20 chasers = every 30 lights is a chaser light.
-            var chaseSpacer = ConfigurationManager.Configuration.LedCount / this.ChaseQuantity;
+            var chaseSpacer = this.Settings.LedCount / this.ChaseQuantity;
 
             // Generate the sequence of light indexes that should be on
             // to start with.
-            var chasers = Enumerable.Range(0, ConfigurationManager.Configuration.LedCount - 1)
+            var chasers = Enumerable.Range(0, this.Settings.LedCount - 1)
                 .Where(i => i % chaseSpacer == 0)
                 .ToArray();
 

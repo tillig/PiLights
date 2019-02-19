@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
-using PiLights.Services;
+using PiLights.Configuration;
 using Xunit;
 
-namespace PiLights.Test.Services
+namespace PiLights.Test.Configuration
 {
     public class ConfigurationDiffTest
     {

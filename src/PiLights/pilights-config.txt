@@ -1,1 +1,0 @@
-{"GlobalBrightness":64,"LedCount":540,"LedType":3,"ServerIP":"127.0.0.1","ServerPort":9999}

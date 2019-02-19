@@ -1,5 +1,6 @@
 ﻿using System;
 using LightCommandLanguage;
+using PiLights.Configuration;
 using PiLights.Scenes;
 using Xunit;
 
@@ -12,7 +13,7 @@ namespace PiLights.Test.Scenes
         [InlineData("FFFFFF")]
         public void ValidScene(string color)
         {
-            var scene = new SolidColor();
+            var scene = new SolidColor(new GlobalConfigurationSettings());
             scene.Color = color;
             var script = scene.GenerateScript();
             var result = LightCommandAnalyzer.AnalyzeScript(script);

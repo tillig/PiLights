@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using HandlebarsDotNet;
 using Microsoft.AspNetCore.Mvc;
+using PiLights.Configuration;
 using PiLights.Services;
 
 namespace PiLights.Scenes
@@ -22,6 +23,11 @@ loop";
 
         private static readonly Func<object, string> CompiledTemplate = Handlebars.Compile(Template);
 
+        public Breathing(GlobalConfigurationSettings settings)
+            : base(settings)
+        {
+        }
+
         [DisplayName("Breath Speed")]
         [Range(1, 1000)]
         public int BreathSpeed { get; set; }
@@ -37,7 +43,7 @@ loop";
             {
                 color = this.Color,
                 breathSpeed = this.BreathSpeed,
-                defaultBrightness = ConfigurationManager.Configuration.GlobalBrightness,
+                defaultBrightness = this.Settings.GlobalBrightness,
             };
 
             var generated = CompiledTemplate(data);

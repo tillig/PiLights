@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 
-namespace PiLights.Services
+namespace PiLights.Configuration
 {
     public static class ConfigurationDiff
     {
