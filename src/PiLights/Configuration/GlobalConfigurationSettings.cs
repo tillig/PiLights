@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace PiLights.Models
+namespace PiLights.Configuration
 {
     public class GlobalConfigurationSettings
     {
@@ -19,7 +19,7 @@ namespace PiLights.Models
 
         [DisplayName("LED Type")]
         [Required]
-        [DataType("Enum")]
+        [DataType(nameof(Enum))]
         public LedType LedType { get; set; }
 
         [DisplayName("Server IP Address")]

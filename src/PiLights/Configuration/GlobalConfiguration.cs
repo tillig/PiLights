@@ -1,14 +1,18 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using PiLights.Models;
 
-namespace PiLights
+namespace PiLights.Configuration
 {
     public class GlobalConfiguration
     {
+        private const string SettingsFileBaseName = "globalsettings";
+
         public GlobalConfiguration(
             IConfiguration baseConfiguration,
             IConfiguration mergedConfiguration,
@@ -28,11 +32,11 @@ namespace PiLights
         public static GlobalConfiguration Load(IHostingEnvironment environment)
         {
             var baseConfig = new ConfigurationBuilder()
-                .AddJsonFile("globalsettings.json", true, true)
+                .AddJsonFile($"{SettingsFileBaseName}.json", true, true)
                 .Build();
             var mergedConfig = new ConfigurationBuilder()
-                .AddJsonFile("globalsettings.json", true, true)
-                .AddJsonFile($"globalsettings.{environment.EnvironmentName}.json", true, true)
+                .AddJsonFile($"{SettingsFileBaseName}.json", true, true)
+                .AddJsonFile($"{SettingsFileBaseName}.{environment.EnvironmentName}.json", true, true)
                 .Build();
 
             return new GlobalConfiguration(baseConfig, mergedConfig, environment);
@@ -45,7 +49,7 @@ namespace PiLights
 
         public void Save(GlobalConfigurationSettings settings)
         {
-            using (var writer = File.CreateText($"globalsettings.{this.Environment.EnvironmentName}.json"))
+            using (var writer = File.CreateText($"{SettingsFileBaseName}.{this.Environment.EnvironmentName}.json"))
             {
                 this.Save(writer, settings);
             }
@@ -53,8 +57,15 @@ namespace PiLights
 
         public void Save(StreamWriter writer, GlobalConfigurationSettings settings)
         {
-            // TODO: Calculate the differences between the base settings and the passed in settings.
-            // TODO: Save the settings differences to the stream.
+            var settingsDictionary = settings
+                .GetType()
+                .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                .ToDictionary(prop => prop.Name, prop => prop.GetValue(settings, null).ToString());
+            var mergedConfig = new ConfigurationBuilder().AddInMemoryCollection(settingsDictionary).Build();
+            var diff = ConfigurationDiff.Calculate(this.BaseConfiguration, mergedConfig);
+            var serialized = JsonConvert.SerializeObject(diff, Formatting.Indented);
+            writer.Write(serialized);
+            writer.Flush();
         }
     }
 }
