@@ -9,7 +9,8 @@
         <div class="col-sm">
             <h1>Global Configuration Settings</h1>
             <form asp-controller="configuration" asp-action="Index" method="post">
-                <fieldset class="panel">
+                <fieldset class="panel border rounded">
+                    <alerts></alerts>
                     @Html.EditorForModel()
                     <div class="form-group">
                         <button type="submit" name="save" id="save" data-clear-alerts="true" class="btn btn-primary">Save</button>

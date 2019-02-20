@@ -43,7 +43,6 @@ namespace PiLights.Controllers
         [HttpPost]
         public async Task<IActionResult> StartScene(string sceneName)
         {
-            // TODO: Adjust alerts to be toast popup that auto-disappears.
             var scene = this.Scenes.First(x => x.GetType().FullName == sceneName);
             if (!await this.TryUpdateModelAsync(scene, scene.GetType(), string.Empty))
             {

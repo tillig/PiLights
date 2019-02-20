@@ -15,16 +15,6 @@ namespace PiLights
     public class AlertsTagHelper : TagHelper
     {
         /// <summary>
-        /// The class names used for the show and hide animations used by the alert.
-        /// </summary>
-        public const string AnimationNames = "fade show";
-
-        /// <summary>
-        /// The liga name used for the "close" material design icon used for the alert close button.
-        /// </summary>
-        public const string CloseIconName = "close";
-
-        /// <summary>
         /// The session key for storing alert messages.
         /// </summary>
         public const string AlertMessage = "alert-message";
@@ -94,30 +84,33 @@ namespace PiLights
                 throw new ArgumentNullException(nameof(alert));
             }
 
-            var closeClass = " alert-dismissable";
-            var alertName = alert.Success ? "alert-success" : "alert-danger";
             var div = new TagBuilder("div");
-            div.AddCssClass($"alert {alertName}{closeClass} {AnimationNames}");
+            div.AddCssClass("alert");
+            div.AddCssClass(alert.Success ? "alert-success" : "alert-danger");
+            div.AddCssClass("alert-dismissible");
+            div.AddCssClass("fade");
+            div.AddCssClass("show");
             div.Attributes.Add("role", "alert");
 
             var icon = new TagBuilder("i");
             icon.AddCssClass("material-icons");
+            icon.AddCssClass("alert-icon");
             icon.InnerHtml.AppendHtml(alert.Success ? "check_circle" : "error");
             div.InnerHtml.AppendHtml(icon);
 
             var message = new TagBuilder("span");
-            message.AddCssClass("alert-message");
             message.InnerHtml.AppendHtml(alert.MessageHtml);
             div.InnerHtml.AppendHtml(message);
 
             var close = new TagBuilder("button");
             close.AddCssClass("close");
+            close.Attributes.Add("type", "button");
             close.Attributes.Add("data-dismiss", "alert");
-            close.Attributes.Add("data-test-element", "alert-close-button");
+            close.Attributes.Add("aria-label", "Close");
 
-            var closeIcon = new TagBuilder("i");
-            closeIcon.AddCssClass("material-icons");
-            closeIcon.InnerHtml.AppendHtml(CloseIconName);
+            var closeIcon = new TagBuilder("span");
+            closeIcon.Attributes.Add("aria-hidden", "true");
+            closeIcon.InnerHtml.AppendHtml("&times;");
             close.InnerHtml.AppendHtml(closeIcon);
             div.InnerHtml.AppendHtml(close);
 

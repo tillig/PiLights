@@ -5,6 +5,7 @@ using PiLights.Configuration;
 
 namespace PiLights.Scenes
 {
+    // TODO: Create scene "KITT" - back and forth chaser like KITT or Cylons.
     // TODO: Create scene "Bumps" - like theater chaser but with more gradient between individual lights. Maybe an option on Theater Chaser instead?
     public abstract class Scene
     {

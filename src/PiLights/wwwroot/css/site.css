@@ -3,6 +3,11 @@
     padding-bottom: 4rem;
 }
 
+.alert-icon {
+    vertical-align: middle;
+    padding-right: 1rem;
+}
+
 .material-icons {
     font-family: 'Material Icons';
     font-weight: normal;
