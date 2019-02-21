@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Linq;
+using System.Text;
 using HandlebarsDotNet;
 using PiLights.Configuration;
 
@@ -11,23 +12,14 @@ namespace PiLights.Scenes
     [DisplayName("Theater Chaser")]
     public class TheaterChaser : Scene
     {
-        private const string Template = @"{{#each chasers}}fill 1,{{../color}},{{this}},1
-{{/each}}
-render
-do
-  delay {{chaseSpeed}}
-  rotate 1, 1, {{direction}}
-  render
-loop";
-
-        private static readonly Func<object, string> CompiledTemplate = Handlebars.Compile(Template);
-
         public TheaterChaser(GlobalConfigurationSettings settings)
             : base(settings)
         {
-            this.Color = Color.White;
+            this.PrimaryColor = Color.White;
+            this.SecondaryColor = Color.White;
             this.ChaseQuantity = settings.LedCount / 20;
             this.ChaseSpeed = 20;
+            this.Gradient = false;
             this.Reverse = false;
         }
 
@@ -43,12 +35,19 @@ loop";
         [Range(1, 1000)]
         public int ChaseSpeed { get; set; }
 
-        [DisplayName(nameof(Color))]
+        [DisplayName("Gradient Between Chasers")]
+        public bool? Gradient { get; set; }
+
+        [DisplayName("Primary Color")]
         [Required]
-        public Color Color { get; set; }
+        public Color PrimaryColor { get; set; }
 
         [DisplayName("Reverse Direction")]
         public bool? Reverse { get; set; }
+
+        [DisplayName("Secondary Color")]
+        [Required]
+        public Color SecondaryColor { get; set; }
 
         public override string GetSceneImplementation()
         {
@@ -58,20 +57,74 @@ loop";
 
             // Generate the sequence of light indexes that should be on
             // to start with.
-            var chasers = Enumerable.Range(0, this.Settings.LedCount - 1)
+            var allChasers = Enumerable.Range(0, this.Settings.LedCount - 1)
                 .Where(i => i % chaseSpacer == 0)
                 .ToArray();
 
-            var data = new
+            var script = new StringBuilder();
+            if (this.Gradient.HasValue && this.Gradient.Value)
             {
-                color = this.Color.ToLedColor(),
-                chaseSpeed = this.ChaseSpeed,
-                direction = this.Reverse.HasValue && this.Reverse.Value ? 0 : 1,
-                chasers,
-            };
+                // Use gradients to fill the initial lights.
+                var currentColor = this.PrimaryColor;
+                var nextColor = this.SecondaryColor;
+                for (var chaserIndex = 0; chaserIndex < allChasers.Length; chaserIndex++)
+                {
+                    var currentLed = allChasers[chaserIndex];
+                    int nextLed;
+                    if (chaserIndex + 1 == allChasers.Length)
+                    {
+                        // TODO: If there's no next chaser the gradient will be off - calculate a partial gradient.
+                        // There is no next chaser LED - look at the end of the strip instead.
+                        nextLed = this.Settings.LedCount - 1;
+                    }
+                    else
+                    {
+                        // There's another chaser coming, gradient between current and next.
+                        nextLed = allChasers[chaserIndex + 1];
+                    }
 
-            var generated = CompiledTemplate(data);
-            return generated;
+                    if (currentLed == nextLed)
+                    {
+                        // It's possible the last chaser is the last light in the string.
+                        break;
+                    }
+
+                    script.AppendLine($"gradient 1,R,{currentColor.R},{nextColor.R},{currentLed},{nextLed - currentLed}");
+                    script.AppendLine($"gradient 1,G,{currentColor.G},{nextColor.G},{currentLed},{nextLed - currentLed}");
+                    script.AppendLine($"gradient 1,B,{currentColor.B},{nextColor.B},{currentLed},{nextLed - currentLed}");
+
+                    var tempColor = currentColor;
+                    currentColor = nextColor;
+                    nextColor = tempColor;
+                }
+            }
+            else
+            {
+                // Simply render the solid color in each light.
+                var primary = this.PrimaryColor.ToLedColor();
+                var secondary = this.SecondaryColor.ToLedColor();
+                for (var chaserIndex = 0; chaserIndex < allChasers.Length; chaserIndex++)
+                {
+                    var ledIndex = allChasers[chaserIndex];
+                    if (chaserIndex % 2 == 0)
+                    {
+                        script.AppendLine($"fill 1,{primary},{ledIndex},1");
+                    }
+                    else
+                    {
+                        script.AppendLine($"fill 1,{secondary},{ledIndex},1");
+                    }
+                }
+            }
+
+            var direction = this.Reverse.HasValue && this.Reverse.Value ? "0" : "1";
+            script.AppendLine("render");
+            script.AppendLine("do");
+            script.AppendLine($"delay {this.ChaseSpeed}");
+            script.AppendLine($"render 1,1,{direction}");
+            script.AppendLine("loop");
+
+            return script.ToString();
         }
     }
 }
