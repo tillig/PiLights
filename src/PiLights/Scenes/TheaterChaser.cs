@@ -121,7 +121,8 @@ namespace PiLights.Scenes
             script.AppendLine("render");
             script.AppendLine("do");
             script.AppendLine($"delay {this.ChaseSpeed}");
-            script.AppendLine($"render 1,1,{direction}");
+            script.AppendLine($"rotate 1,1,{direction}");
+            script.AppendLine("render");
             script.AppendLine("loop");
 
             return script.ToString();
