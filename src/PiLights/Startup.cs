@@ -47,15 +47,6 @@ namespace PiLights
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-
-            // TODO: Figure out how to get the configuration for sending the data to the socket.
-            /*
-            var lastKnownScene = ConfigurationManager.GetLastKnownScene();
-            if (lastKnownScene != null)
-            {
-                ConfigurationManager.SendDataToSocket(lastKnownScene);
-            }
-            */
         }
 
         [SuppressMessage("CA1812", "CA1812", Justification = "Startup requires instance methods.")]
@@ -66,13 +57,11 @@ namespace PiLights
                 .Where(t => typeof(Scene).IsAssignableFrom(t))
                 .As<Scene>();
             builder.RegisterInstance(this.HostingEnvironment);
+            builder.RegisterInstance(this.Configuration);
             builder
-                .Register(ctx => GlobalConfiguration.Load(this.HostingEnvironment))
-                .As<GlobalConfiguration>()
+                .Register(ctx => ctx.Resolve<IConfiguration>().GetSection("ws281x").Get<LedSettings>())
+                .As<LedSettings>()
                 .SingleInstance();
-            builder
-                .Register(ctx => ctx.Resolve<GlobalConfiguration>().GetSettings())
-                .As<GlobalConfigurationSettings>();
             builder.RegisterType<BootstrapValidationAttributeAdapterProvider>().As<IValidationAttributeAdapterProvider>();
         }
 
@@ -80,7 +69,7 @@ namespace PiLights
         [SuppressMessage("CA1812", "CA1812", Justification = "Startup requires instance methods.")]
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDistributedMemoryCache();
             services.AddSession();
         }

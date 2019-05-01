@@ -19,7 +19,7 @@ loop{{/if}}";
 
         private static readonly Func<object, string> CompiledTemplate = Handlebars.Compile(Template);
 
-        public Rainbow(GlobalConfigurationSettings settings)
+        public Rainbow(LedSettings settings)
             : base(settings)
         {
             this.ChaseSpeed = 20;

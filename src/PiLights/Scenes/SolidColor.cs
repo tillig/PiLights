@@ -14,7 +14,7 @@ namespace PiLights.Scenes
         private readonly string template = @"fill 1,{0}
 render";
 
-        public SolidColor(GlobalConfigurationSettings settings)
+        public SolidColor(LedSettings settings)
             : base(settings)
         {
             this.Color = Color.White;

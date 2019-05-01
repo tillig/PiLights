@@ -1,4 +1,4 @@
-﻿@model PiLights.Configuration.GlobalConfigurationSettings
+﻿@model PiLights.Configuration.LedSettings
 
 @{
     ViewData["Title"] = "Configuration";
@@ -7,16 +7,11 @@
 <div class="container">
     <div class="row">
         <div class="col-sm">
-            <h1>Global Configuration Settings</h1>
-            <form asp-controller="configuration" asp-action="Index" method="post">
-                <fieldset class="panel border rounded">
-                    <alerts></alerts>
-                    @Html.EditorForModel()
-                    <div class="form-group">
-                        <button type="submit" name="save" id="save" data-clear-alerts="true" class="btn btn-primary">Save</button>
-                    </div>
-                </fieldset>
-            </form>
+            <h1>Current Configuration Settings</h1>
+            <p>Change settings by modifying <code>appsettings.json</code> or setting configuration environment variables like <code>WS281X__PORT</code>.</p>
+            <fieldset class="panel border rounded">
+                @Html.DisplayForModel()
+            </fieldset>
         </div>
     </div>
 </div>

@@ -11,21 +11,21 @@ namespace PiLights.Test.Scenes
         [Fact]
         public void GetDisplayName_Attribute()
         {
-            var s = new NamedScene(new GlobalConfigurationSettings());
+            var s = new NamedScene(new LedSettings());
             Assert.Equal("Named", s.GetDisplayName());
         }
 
         [Fact]
         public void GetDisplayName_NoAttribute()
         {
-            var s = new NoNameScene(new GlobalConfigurationSettings());
+            var s = new NoNameScene(new LedSettings());
             Assert.Equal(nameof(NoNameScene), s.GetDisplayName());
         }
 
         [DisplayName("Named")]
         private class NamedScene : Scene
         {
-            public NamedScene(GlobalConfigurationSettings settings)
+            public NamedScene(LedSettings settings)
                 : base(settings)
             {
             }
@@ -38,7 +38,7 @@ namespace PiLights.Test.Scenes
 
         private class NoNameScene : Scene
         {
-            public NoNameScene(GlobalConfigurationSettings settings)
+            public NoNameScene(LedSettings settings)
                 : base(settings)
             {
             }

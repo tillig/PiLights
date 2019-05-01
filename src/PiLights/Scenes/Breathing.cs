@@ -22,7 +22,7 @@ loop";
 
         private static readonly Func<object, string> CompiledTemplate = Handlebars.Compile(Template);
 
-        public Breathing(GlobalConfigurationSettings settings)
+        public Breathing(LedSettings settings)
             : base(settings)
         {
             this.BreathSpeed = 20;

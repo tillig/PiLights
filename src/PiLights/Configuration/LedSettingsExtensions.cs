@@ -1,19 +1,18 @@
 ﻿using System;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 
 namespace PiLights.Configuration
 {
-    public static class GlobalConfigurationSettingsExtensions
+    public static class LedSettingsExtensions
     {
-        public static bool SendDataToSocket(this GlobalConfigurationSettings config, string script)
+        public static bool SendDataToSocket(this LedSettings config, string script)
         {
             var msg = System.Text.Encoding.ASCII.GetBytes(script);
             var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            var ipAddress = IPAddress.Parse(config.ServerIP);
-            var endpoint = new IPEndPoint(ipAddress, config.ServerPort);
+            var ipAddress = IPAddress.Parse(config.IPAddress);
+            var endpoint = new IPEndPoint(ipAddress, config.Port);
             var tries = 0;
             var success = false;
 

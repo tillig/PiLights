@@ -12,7 +12,7 @@ namespace PiLights.Scenes
     [DisplayName("Theater Chaser")]
     public class TheaterChaser : Scene
     {
-        public TheaterChaser(GlobalConfigurationSettings settings)
+        public TheaterChaser(LedSettings settings)
             : base(settings)
         {
             this.PrimaryColor = Color.White;

@@ -14,7 +14,7 @@ namespace PiLights.Test.Scenes
         [InlineData("#00ff00")]
         public void ValidScene(string color)
         {
-            var scene = new SolidColor(new GlobalConfigurationSettings());
+            var scene = new SolidColor(new LedSettings());
             scene.Color = (Color)new ColorConverter().ConvertFromString(color);
             var script = scene.GenerateScript();
             var result = LightCommandAnalyzer.AnalyzeScript(script);

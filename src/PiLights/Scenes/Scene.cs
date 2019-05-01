@@ -15,22 +15,17 @@ thread_start
 thread_stop
 ";
 
-        protected Scene(GlobalConfigurationSettings settings)
+        protected Scene(LedSettings settings)
         {
             this.Settings = settings ?? throw new ArgumentNullException(nameof(settings));
         }
 
-        public GlobalConfigurationSettings Settings { get; private set; }
+        public LedSettings Settings { get; private set; }
 
         public virtual bool Execute()
         {
             var script = this.GenerateScript();
             var result = this.Settings.SendDataToSocket(script);
-            if (result)
-            {
-                LastKnownScene.WriteLastKnownScene(script);
-            }
-
             return result;
         }
 
