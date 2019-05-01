@@ -8,10 +8,10 @@ using Microsoft.Extensions.DependencyInjection;
 namespace PiLights.Services
 {
     /// <summary>
-    /// Default object editor template forked from https://github.com/aspnet/AspNetCore/blob/c565386a3ed135560bc2e9017aa54a950b4e35dd/src/Mvc/Mvc.ViewFeatures/src/DefaultEditorTemplates.cs
-    /// to allow for Bootstrap 4 compatible editors.
+    /// Default object display template forked from https://github.com/aspnet/AspNetCore/blob/c565386a3ed135560bc2e9017aa54a950b4e35dd/src/Mvc/Mvc.ViewFeatures/src/DefaultDisplayTemplates.cs
+    /// to allow for Bootstrap 4 compatible display similar to the form display.
     /// </summary>
-    public static class ObjectEditorTemplate
+    public static class ObjectDisplayTemplate
     {
         public static IHtmlContent ObjectTemplate(IHtmlHelper htmlHelper)
         {
@@ -19,17 +19,17 @@ namespace PiLights.Services
             var templateInfo = viewData.TemplateInfo;
             var modelExplorer = viewData.ModelExplorer;
 
+            if (modelExplorer.Model == null)
+            {
+                return new HtmlString(modelExplorer.Metadata.NullDisplayText);
+            }
+
             if (templateInfo.TemplateDepth > 1)
             {
-                if (modelExplorer.Model == null)
-                {
-                    return new HtmlString(modelExplorer.Metadata.NullDisplayText);
-                }
-
                 var text = modelExplorer.GetSimpleDisplayText();
                 if (modelExplorer.Metadata.HtmlEncode)
                 {
-                    return new StringHtmlContent(text);
+                    text = htmlHelper.Encode(text);
                 }
 
                 return new HtmlString(text);
@@ -56,7 +56,7 @@ namespace PiLights.Services
                     propertyExplorer,
                     htmlFieldName: propertyMetadata.PropertyName,
                     templateName: null,
-                    readOnly: false,
+                    readOnly: true,
                     additionalViewData: null);
 
                 var templateBuilderResult = templateBuilder.Build();
@@ -108,7 +108,7 @@ namespace PiLights.Services
         private static bool ShouldShow(ModelExplorer modelExplorer, TemplateInfo templateInfo)
         {
             return
-                modelExplorer.Metadata.ShowForEdit &&
+                modelExplorer.Metadata.ShowForDisplay &&
                 !modelExplorer.Metadata.IsComplexType &&
                 !templateInfo.Visited(modelExplorer);
         }
