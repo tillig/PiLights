@@ -1,36 +1,46 @@
-﻿{
+{
   "iisSettings": {
-    "windowsAuthentication": false, 
-    "anonymousAuthentication": true, 
+    "anonymousAuthentication": true,
     "iisExpress": {
       "applicationUrl": "http://localhost:61186",
       "sslPort": 0
-    }
+    },
+    "windowsAuthentication": false
   },
   "profiles": {
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
-    "Pi Lights (Remote WS2812B)": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "applicationUrl": "http://localhost:5000",
+    "Docker": {
+      "commandName": "Docker",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Production",
         "WS281X__IPADDRESS": "192.168.1.208"
-      }
-    },
-    "Pi Lights (Local Emulator)": {
-      "commandName": "Project",
+      },
+      "httpPort": 61187,
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:5000",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}"
+    },
+    "IIS Express": {
+      "commandName": "IISExpress",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "launchBrowser": true
+    },
+    "Pi Lights (Local Emulator)": {
+      "applicationUrl": "http://localhost:5000",
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "launchBrowser": true
+    },
+    "Pi Lights (Remote WS2812B)": {
+      "applicationUrl": "http://localhost:5000",
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Production",
+        "WS281X__IPADDRESS": "192.168.1.208"
+      },
+      "launchBrowser": true
     }
   }
 }
