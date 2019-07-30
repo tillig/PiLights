@@ -7,17 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using PiLights.Models;
+using PiLights.Properties;
 using PiLights.Scenes;
-using PiLights.Services;
 
 namespace PiLights.Controllers
 {
     public class HomeController : Controller
     {
-        private const string ErrorMessage = "Failed to start the scene. Please try again later.";
-
-        private const string SuccessMessage = "Successfully started the scene.";
-
         public HomeController(IEnumerable<Scene> scenes)
         {
             this.Scenes = scenes ?? throw new ArgumentNullException(nameof(scenes));
@@ -36,7 +32,6 @@ namespace PiLights.Controllers
         public IActionResult SceneProperties(string sceneName)
         {
             var scene = this.Scenes.First(x => x.GetType().FullName == sceneName);
-            var sceneProperties = scene.GetSceneProperties();
             return this.PartialView(scene);
         }
 
@@ -46,11 +41,11 @@ namespace PiLights.Controllers
             var scene = this.Scenes.First(x => x.GetType().FullName == sceneName);
             if (!await this.TryUpdateModelAsync(scene, scene.GetType(), string.Empty))
             {
-                this.ModelState.AddModelError(string.Empty, "Unable to bind properties to model.");
+                this.ModelState.AddModelError(string.Empty, Resources.Home_BindError);
             }
             else if (!this.TryValidateModel(scene))
             {
-                this.ModelState.AddModelError(string.Empty, "Unable to validate model.");
+                this.ModelState.AddModelError(string.Empty, Resources.Home_ValidateError);
             }
 
             if (!this.ModelState.IsValid)
@@ -64,7 +59,7 @@ namespace PiLights.Controllers
 
         private void SetAlert(bool success)
         {
-            var alert = new Alert { MessageHtml = success ? SuccessMessage : ErrorMessage, Success = success };
+            var alert = new Alert { MessageHtml = success ? Resources.Home_SceneSuccess : Resources.Home_SceneFail, Success = success };
             this.HttpContext.Session.SetString("alert-message", JsonConvert.SerializeObject(alert));
         }
     }

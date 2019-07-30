@@ -1,0 +1,12 @@
+{
+  "name": "smart-home-simulator",
+  "version": "0.0.0",
+  "description": "SmartHomeSimulator",
+  "main": "app.js",
+  "author": {
+    "name": ""
+  },
+  "dependencies": {
+    "tplink-smarthome-simulator": "^1.10.0"
+  }
+}

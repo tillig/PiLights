@@ -18,5 +18,8 @@ namespace PiLights.Configuration
 
         [DisplayName("Server Port")]
         public int Port { get; set; }
+
+        [DisplayName("Smart Plug IP Address")]
+        public int SmartPlugIPAddress { get; set; }
     }
 }
