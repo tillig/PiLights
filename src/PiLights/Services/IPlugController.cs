@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using PiLights.Models;
 
 namespace PiLights.Services
 {
     public interface IPlugController
     {
-        void Shutdown();
+        Task ShutdownAsync();
 
-        void Startup();
+        Task StartupAsync();
 
-        PlugStatus Status();
+        Task<PlugStatus> StatusAsync();
     }
 }

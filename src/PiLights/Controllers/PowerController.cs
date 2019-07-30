@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PiLights.Models;
 using PiLights.Services;
@@ -17,24 +18,24 @@ namespace PiLights.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Shutdown()
+        public async Task<ActionResult> Shutdown()
         {
-            this.PlugController.Shutdown();
-            return this.View("ShutdownComplete");
+            await this.PlugController.ShutdownAsync();
+            return this.Ok();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Startup()
+        public async Task<ActionResult> Startup()
         {
-            this.PlugController.Startup();
-            return this.View("ShutdownComplete");
+            await this.PlugController.StartupAsync();
+            return this.Ok();
         }
 
         [HttpGet]
-        public ActionResult<PlugStatus> Status()
+        public async Task<ActionResult<PlugStatus>> Status()
         {
-            return this.PlugController.Status();
+            return await this.PlugController.StatusAsync();
         }
     }
 }

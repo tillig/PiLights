@@ -20,6 +20,6 @@ namespace PiLights.Configuration
         public int Port { get; set; }
 
         [DisplayName("Smart Plug IP Address")]
-        public int SmartPlugIPAddress { get; set; }
+        public string SmartPlugIPAddress { get; set; }
     }
 }

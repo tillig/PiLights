@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Net;
 using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,7 +11,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PiLights.Configuration;
 using PiLights.Scenes;
+using PiLights.Services;
 using PiLights.Validation;
+using TPLink.SmartHome;
 
 namespace PiLights
 {
@@ -62,6 +65,15 @@ namespace PiLights
                 .Register(ctx => ctx.Resolve<IConfiguration>().GetSection("ws281x").Get<LedSettings>())
                 .As<LedSettings>()
                 .SingleInstance();
+            builder.Register(ctx =>
+                {
+                    var settings = ctx.Resolve<LedSettings>();
+                    _ = IPAddress.TryParse(settings.SmartPlugIPAddress, out var address);
+                    return new PlugClient(address);
+                })
+                .As<PlugClient>()
+                .SingleInstance();
+            builder.RegisterType<PlugController>().As<IPlugController>();
             builder.RegisterType<BootstrapValidationAttributeAdapterProvider>().As<IValidationAttributeAdapterProvider>();
         }
 
