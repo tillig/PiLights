@@ -9,6 +9,11 @@ namespace PiLights.Scenes
     {
         public static string GetDisplayName(this Scene scene)
         {
+            if (scene == null)
+            {
+                throw new ArgumentNullException(nameof(scene));
+            }
+
             var attrib = scene.GetType().GetCustomAttribute<DisplayNameAttribute>();
             if (attrib == null)
             {
@@ -20,6 +25,11 @@ namespace PiLights.Scenes
 
         public static PropertyInfo[] GetSceneProperties(this Scene scene)
         {
+            if (scene == null)
+            {
+                throw new ArgumentNullException(nameof(scene));
+            }
+
             return scene.GetType().GetProperties();
         }
     }

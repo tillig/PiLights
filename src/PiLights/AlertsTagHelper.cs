@@ -36,6 +36,11 @@ namespace PiLights
         /// <param name="output">The <see cref="TagHelperOutput"/>.</param>
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
+            if (output == null)
+            {
+                throw new ArgumentNullException(nameof(output));
+            }
+
             output.TagName = "span";
             var message = this.ViewContext.HttpContext.Session.GetString(AlertMessage);
             if (message != null)

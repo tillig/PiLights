@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Html;
+﻿using System;
+using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
@@ -15,6 +16,11 @@ namespace PiLights.Services
     {
         public static IHtmlContent ObjectTemplate(IHtmlHelper htmlHelper)
         {
+            if (htmlHelper == null)
+            {
+                throw new ArgumentNullException(nameof(htmlHelper));
+            }
+
             var viewData = htmlHelper.ViewData;
             var templateInfo = viewData.TemplateInfo;
             var modelExplorer = viewData.ModelExplorer;

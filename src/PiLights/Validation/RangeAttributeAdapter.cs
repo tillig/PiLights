@@ -17,6 +17,11 @@ namespace PiLights.Validation
         public RangeAttributeAdapter(RangeAttribute attribute, IStringLocalizer stringLocalizer)
             : base(attribute, stringLocalizer)
         {
+            if (attribute == null)
+            {
+                throw new ArgumentNullException(nameof(attribute));
+            }
+
             // This will trigger the conversion of Attribute.Minimum and Attribute.Maximum.
             // This is needed, because the attribute is stateful and will convert from a string like
             // "100m" to the decimal value 100.
