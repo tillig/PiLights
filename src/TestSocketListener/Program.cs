@@ -1,12 +1,12 @@
-﻿using Antlr4.Runtime;
-using LightCommandLanguage;
-using System;
+﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
+using LightCommandLanguage;
 
 namespace TestSocketListener
 {
-    class Program
+    internal class Program
     {
         public static void Main()
         {
@@ -14,7 +14,7 @@ namespace TestSocketListener
             try
             {
                 // Set the TcpListener on port 13000.
-                Int32 port = 9999;
+                int port = 9999;
                 IPAddress localAddr = IPAddress.Parse("127.0.0.1");
 
                 // TcpListener server = new TcpListener(port);
@@ -24,7 +24,8 @@ namespace TestSocketListener
                 server.Start();
 
                 // Buffer for reading data
-                Byte[] bytes = new Byte[256];
+                // Based on default buffer size for listener: https://github.com/tom-2015/rpi-ws2812-server/blob/e99cf3e5511295721ecb4c8a39819239942d54c6/main.c#L20
+                byte[] bytes = new byte[32768];
 
                 // Enter the listening loop.
                 while (true)
@@ -38,21 +39,25 @@ namespace TestSocketListener
 
                     // Get a stream object for reading and writing
                     NetworkStream stream = client.GetStream();
-                    var i = stream.Read(bytes, 0, bytes.Length);
+                    int i = stream.Read(bytes, 0, bytes.Length);
 
                     // Translate data bytes to a ASCII string.
-                    var data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
+                    string data = Encoding.ASCII.GetString(bytes, 0, i);
                     Console.WriteLine("Received: {0}", data);
 
                     // Validate the script.
-                    var result = LightCommandAnalyzer.AnalyzeScript(data);
+                    ValidationListener result = LightCommandAnalyzer.AnalyzeScript(data);
                     if (result.ErrorCount != 0)
                     {
                         Console.WriteLine("{0} errors detected", result.ErrorCount);
-                        foreach (var error in result.Errors)
+                        foreach (string error in result.Errors)
                         {
                             Console.WriteLine("error: {0}", error);
                         }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Script is valid.");
                     }
 
                     // Shutdown and end connection - ws2812x server doesn't send any responses
@@ -68,7 +73,6 @@ namespace TestSocketListener
                 // Stop listening for new clients.
                 server.Stop();
             }
-
 
             Console.WriteLine("\nHit enter to continue...");
             Console.Read();
