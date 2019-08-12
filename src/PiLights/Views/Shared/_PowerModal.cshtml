@@ -1,8 +1,8 @@
-﻿<div class="modal fade" id="powerModal" tabindex="-1" role="dialog" aria-labelledby="powerModalTitle" aria-hidden="true">
+﻿<div class="modal fade" id="powerOffModal" tabindex="-1" role="dialog" aria-labelledby="powerOffModalTitle" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="powerModalTitle">Power Off?</h5>
+                <h5 class="modal-title" id="powerOffModalTitle">Power Off?</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -11,14 +11,33 @@
                 <p>Are you sure you want to power down?</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="powerOffConfirm">Power Off</button>
+                <button type="button" class="btn btn-primary power-confirm">Power Off</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="powerOnModal" tabindex="-1" role="dialog" aria-labelledby="powerOnModalTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="powerOnModalTitle">Power On?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Would you like to power on?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary power-confirm">Power On</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
 <script>
-        $('#powerOffConfirm').click(function () {
-            $('#powerForm').submit();
-        });
+$('.power-confirm').click(function () {
+    $('#powerForm').submit();
+});
 </script>
