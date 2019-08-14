@@ -38,7 +38,8 @@
       "commandName": "Project",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Production",
-        "WS281X__IPADDRESS": "192.168.1.208"
+        "WS281X__IPADDRESS": "192.168.1.208",
+        "WS281X__SMARTPLUGIPADDRESS": "192.168.1.23"
       },
       "launchBrowser": true
     }
