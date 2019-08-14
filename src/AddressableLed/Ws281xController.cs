@@ -26,30 +26,20 @@ namespace AddressableLed
         /// <param name="settings">Settings used for initialization.</param>
         public Ws281xController(Settings settings)
         {
-            // TODO: Figure out why these Console.WriteLine messages make it work.
-            // I had them in the program, it worked, and before I committed the change
-            // indicating that things worked I took them out. After taking them out, things
-            // stopped working. I'm legitimately stumped. I'm curious if it has something
-            // to do with forcing the GC to allocate enough managed heap or something and
-            // now I'm just rambling because I have no idea why it only works with the writelines.
-            Console.WriteLine("Creating ws2811");
-            this._ws2811 = default(ws2811_t);
+            this._ws2811 = new ws2811_t();
 
-            // Pin the object in memory. Otherwise GC will probably move the object to another memory location.
-            // This would cause errors because the native library has a pointer on the memory location of the object.
-            Console.WriteLine("Pinning ws2811");
+            // Pin the object in memory. Otherwise GC may move the object and break the connection
+            // between the memory location and the native library.
             this._ws2811Handle = GCHandle.Alloc(this._ws2811, GCHandleType.Pinned);
 
             this._ws2811.dmanum = settings.DmaChannel;
             this._ws2811.freq = settings.Frequency;
-            Console.WriteLine("Creating channel");
             this._ws2811.channel_1 = default(ws2811_channel_t);
 
             this.InitChannel(ref this._ws2811.channel_1, settings.Channel);
             this.Settings = settings;
 
-            Console.WriteLine("Initializing channel");
-            var initResult = NativeMethods.ws2811_init(ref this._ws2811);
+            var initResult = NativeMethods.ws2811_init(this._ws2811Handle.AddrOfPinnedObject());
             if (initResult != ws2811_return_t.WS2811_SUCCESS)
             {
                 var returnMessage = GetMessageForStatusCode(initResult);
@@ -63,7 +53,6 @@ namespace AddressableLed
 
         ~Ws281xController()
         {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             this.Dispose(false);
         }
 
@@ -86,7 +75,7 @@ namespace AddressableLed
             var ledColor = this.Settings.Channel.Lights.Select(x => x.RgbValue).ToArray();
             Marshal.Copy(ledColor, 0, this._ws2811.channel_1.leds, ledColor.Length);
 
-            var result = NativeMethods.ws2811_render(ref this._ws2811);
+            var result = NativeMethods.ws2811_render(this._ws2811Handle.AddrOfPinnedObject());
             if (result != ws2811_return_t.WS2811_SUCCESS)
             {
                 var returnMessage = GetMessageForStatusCode(result);
@@ -110,7 +99,7 @@ namespace AddressableLed
             {
                 if (this._isDisposingAllowed)
                 {
-                    NativeMethods.ws2811_fini(ref this._ws2811);
+                    NativeMethods.ws2811_fini(this._ws2811Handle.AddrOfPinnedObject());
                     if (this._ws2811Handle.IsAllocated)
                     {
                         this._ws2811Handle.Free();
@@ -147,8 +136,6 @@ namespace AddressableLed
 
             if (channelSettings.StripType != StripType.Unknown)
             {
-                // Strip type is set by the native assembly if not explicitly set.
-                // This type defines the ordering of the colors e. g. RGB or GRB, ...
                 channel.strip_type = (int)channelSettings.StripType;
             }
         }

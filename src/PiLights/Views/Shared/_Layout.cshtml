@@ -31,7 +31,8 @@
             </div>
             <form class="form-inline mt-2 mt-md-0" id="powerForm" method="post" asp-controller="Power" asp-action="Shutdown">
                 @Html.AntiForgeryToken()
-                <button class="material-icons md-light nav-link" data-toggle="modal" data-target="#powerModal" type="button">power_settings_new</button>
+                <button class="material-icons md-light nav-link power-off-button" style="display:none" data-toggle="modal" data-target="#powerOffModal" type="button">power_settings_new</button>
+                <button class="material-icons md-dark nav-link power-on-button" style="display:none" data-toggle="modal" data-target="#powerOnModal" type="button">power_settings_new</button>
             </form>
         </nav>
     </header>

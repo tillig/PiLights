@@ -11,6 +11,9 @@ namespace PiLights.Controllers
     {
         public PowerController(IPlugController plugController)
         {
+            // TODO: JS polling from the front end for status
+            // https://davidwalsh.name/javascript-polling
+            // TODO: Click power button to turn on/off, confirm when turning off.
             this.PlugController = plugController ?? throw new ArgumentNullException(nameof(plugController));
         }
 

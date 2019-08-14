@@ -89,9 +89,11 @@ namespace PiLights.Scenes
                         break;
                     }
 
-                    script.AppendLine($"gradient 1,R,{currentColor.R},{nextColor.R},{currentLed},{nextLed - currentLed}");
-                    script.AppendLine($"gradient 1,G,{currentColor.G},{nextColor.G},{currentLed},{nextLed - currentLed}");
-                    script.AppendLine($"gradient 1,B,{currentColor.B},{nextColor.B},{currentLed},{nextLed - currentLed}");
+                    var gradientSteps = currentColor.Interpolate(nextColor, nextLed - currentLed).ToArray();
+                    for (var i = 0; i < nextLed - currentLed; i++)
+                    {
+                        script.AppendLine($"fill 1,{gradientSteps[i].ToLedColor()},{currentLed + i},1");
+                    }
 
                     var tempColor = currentColor;
                     currentColor = nextColor;
