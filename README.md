@@ -7,7 +7,7 @@ This was primarily created as a personal project to get some fun WS2812B lightin
 At some point I may switch this so it directly controls the LEDs instead of using the [rpi-ws2812-server](https://github.com/tom-2015/rpi-ws2812-server). This would allow the RPi to host just the ASP.NET Core app and would mean no need for a separate container that calls the server. The RPi I have isn't strong enough to support both the [rpi-ws2812-server](https://github.com/tom-2015/rpi-ws2812-server) and this app at the same time. Something hangs in the networking. Haven't figured out what.
 
 # Publish
-Update
+
 In Visual Studio there's a folder-based publish profile so you can publish from there and it'll end up in `artifacts/app`.
 
 # Run
@@ -19,3 +19,7 @@ If you do try hosting this on the RPi, you must listen on `*` or ASP.NET Core de
 # Debug
 
 If you want to debug on the RPi you can select SSH debugging from VS and enter `username@yourpiname` like `pi@raspberrypi` as the destination. You can then select your app from the list of running processes.
+
+# Raspberry Pi Setup
+
+I have [a gist](https://gist.github.com/tillig/b3dff3f37c93db73e2e721cd82c5650e) with a mostly-automated setup script for pulling down the server bits and getting things compiled. You can use that to see what prerequisites you need for build/setup.
